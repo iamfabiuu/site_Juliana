@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 7.4.0.3 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2026-07-06T18:09:18.512000000"/>
+	<meta name="" content=""/>
+	<style type="text/css">
+		@page { size: 21cm 29.7cm; margin-left: 2cm; margin-right: 1cm; margin-top: 1cm; margin-bottom: 1cm }
+		p { color: #1d3e66; font-family: "Calibri", "Arial", sans-serif; font-size: 11pt; line-height: 150%; margin-left: 0.11cm; margin-right: 0.11cm; margin-top: 0.11cm; margin-bottom: 0.26cm; background: transparent }
+		h1 { color: #1d3e66; margin-left: 2.5cm; margin-right: 2.5cm; margin-top: 0.64cm; margin-bottom: 0.21cm; border-top: none; border-bottom: 1.50pt solid #6298b0; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.16cm; padding-left: 0cm; padding-right: 0cm; background: transparent; page-break-after: avoid }
+		h1.western { font-family: "Liberation Serif", serif; font-size: 18pt; font-weight: bold }
+		h1.cjk { font-family: "NSimSun"; font-size: 18pt; font-weight: bold }
+		h1.ctl { font-family: "Arial"; font-size: 18pt; font-weight: bold }
+		h2 { color: #1d3e66; margin-left: 2.5cm; margin-right: 2.5cm; margin-top: 0.53cm; margin-bottom: 0.11cm; background: #ebf2f3; border: none; padding: 0cm; background: transparent; page-break-after: avoid }
+		h2.western { font-family: "Liberation Serif", serif; font-size: 14pt; font-weight: bold }
+		h2.cjk { font-family: "NSimSun"; font-size: 14pt; font-weight: bold }
+		h2.ctl { font-family: "Arial"; font-size: 14pt; font-weight: bold }
+		p.subtitulo { color: #555555; font-size: 10pt; font-style: italic; margin-bottom: 0.11cm }
+		td p { color: #1d3e66; font-family: "Calibri", "Arial", sans-serif; font-size: 11pt; orphans: 0; widows: 0; margin-left: 2.5cm; margin-right: 2.5cm; margin-top: 2cm; margin-bottom: 2cm; background: transparent }
+		th p { color: #ffffff; font-family: "Calibri", "Arial", sans-serif; font-size: 11pt; font-weight: bold; text-align: left; orphans: 0; widows: 0; margin-left: 2.5cm; margin-right: 2.5cm; margin-top: 2cm; margin-bottom: 2cm; background: #1d3e66; background: transparent }
+		p.rodape { color: #888888; font-size: 9pt; margin-top: 1.06cm; border-top: 1px solid #cccccc; border-bottom: none; border-left: none; border-right: none; padding-top: 0.21cm; padding-bottom: 0cm; padding-left: 0cm; padding-right: 0cm }
+		strong { font-weight: bold }
+		em { font-style: italic }
+	</style>
+</head>
+<body lang="pt-BR" text="#1d3e66" link="#000080" vlink="#800000" dir="ltr"><h1 class="western">
+ESCOPO DE PROJETO — REPAGINAÇÃO DO SITE<br/>
+Costa
+Desenvolvimento Humano</h1>
+<p><strong>Cliente:</strong> Costa Desenvolvimento Humano</p>
+<p><strong>Data do mapeamento:</strong> 06/07/2026</p>
+<p><strong>Elaborado por:</strong> Arturgil Oliveira – Header
+Developer</p>
+<p><strong>Objetivo:</strong> Mapeamento completo das telas e áreas
+públicas do sistema para embasamento do escopo da etapa de
+<em>Repaginação do Site — Redesenho do Layout com base em novo
+template HTML/CSS/JS</em>.</p>
+<p style="margin-left: 0.26cm; margin-right: 0.26cm; margin-top: 0.26cm">
+<span style="display: inline-block; border-top: none; border-bottom: none; border-left: 3.00pt solid #f0b429; border-right: none; padding-top: 0cm; padding-bottom: 0cm; padding-left: 0.32cm; padding-right: 0cm"><span style="background: #fff8e1">⚠
+</span><font size="2" style="font-size: 10pt"><span style="background: #fff8e1"><strong>Observação
+importante:</span></font></strong><span style="background: #fff8e1"><font size="2" style="font-size: 10pt">
+A repaginação é exclusivamente de camada visual (HTML/CSS/JS).
+Todo o comportamento do sistema — envio de formulários, upload de
+currículo, listagem de vagas, shortlist exclusivo — continuará
+funcionando normalmente após a troca do template. Nenhuma alteração
+no backend (Controllers, Models, rotas, banco de dados) será
+necessária. </span></span></font>
+</p>
+<hr/>
+
+<h2 class="western">TELA 1 — Home / Página Principal</h2>
+<p class="subtitulo">Arquivo: resources/views/site/index.blade.php
+&nbsp;|&nbsp; Rota: / &nbsp;|&nbsp; Template atual: Urban by
+TEMPLATED</p>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>#</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Área / Componente</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Descrição</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.1</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Cabeçalho
+			(Header)</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Barra superior com link
+			de menu hambúrguer</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.2</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Menu de navegação</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Nav lateral/overlay com
+			links: Home, Sobre, Soluções, Oportunidades, Contato, Login</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.3</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Banner principal</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Hero section com título
+			“COSTA DESENVOLVIMENTO HUMANO”</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.4</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Seção Sobre</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Foto circular + texto de
+			apresentação da Juliana Costa (layout 2 colunas)</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.5</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Seção Soluções
+			— bloco 1</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>3 cards com imagem
+			redonda: Cultura e Diversidade, Treinamento e Dinâmicas, Ações
+			de Saúde Mental</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.6</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Seção Soluções
+			— bloco 2</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>3 cards com imagem
+			redonda: Metodologias, Performance, Seleção de Pessoas</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.7</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Seção
+			Oportunidades</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Tabela de vagas ativas
+			com colunas: Vaga, Área, Nível, Localização, Visualizar + CTA
+			para banco de talentos</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.8</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Seção O
+			Manifesto</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Bloco textual
+			institucional sem imagem</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.9</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Seção
+			Depoimentos</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>3 cards de depoimentos de
+			clientes com nome e cargo</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.10</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Seção Clientes
+			e Parceiros</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Grid com 18 logos de
+			clientes/parceiros (3 linhas × 6 colunas)</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.11</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Banner CTA
+			(Contato)</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>“Qual o seu desafio?”
+			com botão de acesso ao WhatsApp</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>1.12</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Rodapé</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Arte decorativa lateral +
+			logo + ícones sociais (Instagram, LinkedIn) + texto de copyright</p>
+		</td>
+	</tr>
+</table>
+<h2 class="western">TELA 2 — Detalhe da Vaga / Formulário de
+Candidatura</h2>
+<p class="subtitulo">Arquivo:
+resources/views/site/form_vaga.blade.php &nbsp;|&nbsp; Rota:
+/vaga/{slug} &nbsp;|&nbsp; Template atual: Intensify by TEMPLATED</p>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>#</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Área / Componente</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Descrição</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>2.1</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Cabeçalho
+			(Header)</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Barra superior com logo e
+			navegação</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>2.2</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Menu de navegação</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Nav com links de retorno
+			ao site</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>2.3</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Área de detalhe
+			da vaga</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Título, área, nível,
+			localização e descrição completa da vaga</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>2.4</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Formulário de
+			candidatura</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Campos: nome, e-mail,
+			telefone, sexo, UF, cidade, upload de currículo, aceite de termos
+			LGPD</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>2.5</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Tela de sucesso
+			(pós-envio)</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Mensagem de agradecimento
+			+ botão Voltar (exibida condicionalmente após envio
+			bem-sucedido)</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>2.6</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Rodapé</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Mesmo padrão da home</p>
+		</td>
+	</tr>
+</table>
+<h2 class="western">TELA 3 — Banco de Talentos (Cadastro de
+Currículo)</h2>
+<p class="subtitulo">Arquivo:
+resources/views/site/form_curriculo.blade.php &nbsp;|&nbsp; Rota:
+/cadastrar_curriculo &nbsp;|&nbsp; Template atual: Intensify by
+TEMPLATED</p>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>#</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Área / Componente</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Descrição</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>3.1</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Cabeçalho
+			(Header)</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Barra superior com logo e
+			navegação</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>3.2</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Menu de navegação</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Nav com links</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>3.3</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Formulário de
+			cadastro</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Campos: nome, e-mail,
+			telefone, sexo, UF, cidade, área de interesse, upload de
+			currículo, aceite de termos LGPD</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>3.4</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Rodapé</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Mesmo padrão da home</p>
+		</td>
+	</tr>
+</table>
+<h2 class="western">TELA 4 — Visualização de Shortlist (Link
+Exclusivo)</h2>
+<p class="subtitulo">Arquivo:
+resources/views/site/view_documentos_exclusivo.blade.php &nbsp;|&nbsp;
+Rota: /shortlist/link-exclusivo/{identificador} &nbsp;|&nbsp;
+Template atual: Intensify by TEMPLATED</p>
+<p style="margin-left: 0.26cm; margin-right: 0.26cm; margin-top: 0.26cm">
+<span style="display: inline-block; border-top: none; border-bottom: none; border-left: 3.00pt solid #f0b429; border-right: none; padding-top: 0cm; padding-bottom: 0cm; padding-left: 0.32cm; padding-right: 0cm"><span style="background: #fff8e1">★
+</span><font size="2" style="font-size: 10pt"><span style="background: #fff8e1"><strong>Atenção:</span></font></strong><span style="background: #fff8e1"><font size="2" style="font-size: 10pt">
+Esta tela é acessada por empresas/clientes externos que recebem o
+link por e-mail. Tem impacto direto na imagem da Costa DH perante
+terceiros — prioridade alta na repaginação. </span></span></font>
+</p>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>#</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Área / Componente</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Descrição</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>4.1</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Cabeçalho
+			(Header)</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Barra superior com logo</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>4.2</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Lista de
+			currículos</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Lista de candidatos com
+			nome (quando disponível) e botões de download (currículo +
+			documentos anexos)</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>4.3</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Badge de
+			identificação</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Indicador visual de
+			shortlist exclusivo</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>4.4</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Rodapé</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Mesmo padrão da home</p>
+		</td>
+	</tr>
+</table>
+<h2 class="western">TELA 5 — Política de Privacidade</h2>
+<p class="subtitulo">Arquivo:
+resources/views/site/detalhe_privacidade.blade.php &nbsp;|&nbsp;
+Rota: /privacidade-de-dados-detalhes &nbsp;|&nbsp; Template atual:
+Intensify by TEMPLATED</p>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>#</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Área / Componente</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Descrição</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>5.1</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Cabeçalho
+			(Header)</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Barra superior com logo e
+			navegação</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>5.2</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Conteúdo textual</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Texto completo da
+			política de privacidade / LGPD</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>5.3</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Rodapé</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Mesmo padrão da home</p>
+		</td>
+	</tr>
+</table>
+<hr/>
+
+<h2 class="western">COMPONENTES COMPARTILHADOS</h2>
+<p>Os itens abaixo se repetem em todas as 5 telas e devem ser
+padronizados no novo template:</p>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>Componente</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Observação</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p><strong>Header</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Estrutura repetida em
+			todas as telas — novo template deve unificar em padrão único</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p><strong>Menu de navegação</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Repetido em todas as
+			telas</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p><strong>Rodapé</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Repetido em todas —
+			logo, redes sociais, copyright</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p><strong>CSS base</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>site/assets/css/main.css
+			(Urban/Intensify by TEMPLATED) — será integralmente substituído</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p><strong>JS base</strong></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>jquery.scrolly,
+			jquery.scrollex, skel.min.js, util.js, main.js — serão
+			substituídos pelos arquivos do novo template</p>
+		</td>
+	</tr>
+</table>
+<hr/>
+
+<h2 class="western">ASSETS: O QUE SUBSTITUIR E O QUE PRESERVAR</h2>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>Asset</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Ação</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Observação</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>public/site/assets/css/</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><font color="#c62828"><b>Substituir</b></font></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>CSS do template atual
+			será trocado pelo novo</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>public/site/assets/js/</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><font color="#c62828"><b>Substituir</b></font></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>JS do template atual será
+			trocado pelo novo</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>public/site/images/</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><font color="#2e7d32"><b>Preservar</b></font></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Fotos, logos, marcas de
+			clientes e arte do rodapé continuam os mesmos</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>public/site/images/new_brands/</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><font color="#2e7d32"><b>Preservar</b></font></p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>18 logos de
+			clientes/parceiros</p>
+		</td>
+	</tr>
+</table>
+<hr/>
+
+<h2 class="western">RESUMO EXECUTIVO</h2>
+<table cellpadding="2" cellspacing="2">
+	<tr>
+		<th style="border: none; padding: 0cm"><p>Item</p>
+		</th>
+		<th style="border: none; padding: 0cm"><p>Quantidade / Detalhe</p>
+		</th>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>Total de telas públicas</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>5 telas</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>Total de áreas mapeadas</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>~28 áreas</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>Arquivos de view a
+			substituir</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>5 arquivos .blade.php</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>Templates atuais</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>Urban + Intensify
+			(TEMPLATED)</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>Assets CSS/JS a
+			substituir</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>public/site/assets/</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>Assets de imagem a
+			preservar</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p>public/site/images/</p>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: none; padding: 0cm"><p>Alterações no backend</p>
+		</td>
+		<td style="border: none; padding: 0cm"><p><strong>Nenhuma</strong>
+			— Controllers, Models, rotas e banco de dados não serão
+			alterados</p>
+		</td>
+	</tr>
+</table>
+<p class="rodape">Costa Desenvolvimento Humano — Documento gerado
+em 06/07/2026 — Uso interno / Escopo de projeto 
+</p>
+</body>
+</html>
