@@ -7,6 +7,7 @@ import { normalizeLista } from "@/lib/normalizeVaga";
 import VagasList from "./VagasList";
 
 export const revalidate = 60;
+export const dynamic = 'force-dynamic'; 
 
 export const metadata: Metadata = {
     title: "Trabalhe com a gente | Costa DH",
