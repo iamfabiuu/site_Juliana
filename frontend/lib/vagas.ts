@@ -38,19 +38,13 @@ const str = (x: unknown): string => {
     if (typeof x === "number" || typeof x === "boolean") return String(x);
     if (typeof x === "object") {
         const o = x as Record<string, unknown>;
-        return str(
-            o.nome ?? o.name ?? o.titulo ?? o.label ?? o.descricao ?? "",
-        );
+        return str(o.nome ?? o.name ?? o.titulo ?? o.label ?? o.descricao ?? "");
     }
     return "";
 };
 
 const toList = (x: unknown): string[] => {
-    if (Array.isArray(x))
-        return x
-            .map(str)
-            .map((s) => s.trim())
-            .filter(Boolean);
+    if (Array.isArray(x)) return x.map(str).map((s) => s.trim()).filter(Boolean);
     if (typeof x === "string") {
         const li = [...x.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)].map((m) =>
             m[1].replace(/<[^>]*>/g, "").trim(),
@@ -66,13 +60,22 @@ const toList = (x: unknown): string[] => {
 
 const temHtml = (s: string) => /<[a-z][\s\S]*>/i.test(s);
 
+const ROTULOS: Record<string, string> = {
+    contabil: "Contábil",
+    "recursos-humanos": "Recursos Humanos",
+};
+
+const humanize = (s: string) =>
+    ROTULOS[s.toLowerCase()] ??
+    s.replace(/[-_]/g, " ").replace(/^\p{L}/u, (c) => c.toUpperCase());
+
 /* ---------- Normalização ---------- */
 export function normalizeVaga(raw: any): Vaga {
     const r = raw?.attributes ?? raw ?? {};
     const descricao = str(r.descricao ?? r.description ?? r.conteudo);
     const cidade = str(r.cidade ?? r.city) || undefined;
     const uf = str(r.uf ?? r.estado ?? r.state) || undefined;
-    const senioridade = str(r.senioridade ?? r.nivel ?? r.seniority ?? r.level);
+    const senioridade = humanize(str(r.senioridade ?? r.nivel ?? r.seniority ?? r.level));
     const id = Number(r.id ?? raw?.id ?? parseInt(str(r.slug), 10));
 
     return {
@@ -80,23 +83,20 @@ export function normalizeVaga(raw: any): Vaga {
         slug: str(r.slug),
         titulo: str(r.titulo ?? r.title ?? r.cargo),
         descricao,
-        descricaoHtml:
-            str(r.descricao_html) || (temHtml(descricao) ? descricao : ""),
-        area: str(r.area ?? r.departamento ?? r.categoria),
+        descricaoHtml: str(r.descricao_html) || (temHtml(descricao) ? descricao : ""),
+        area: humanize(str(r.area ?? r.departamento ?? r.categoria)),
         local:
             str(r.local ?? r.localizacao ?? r.location) ||
             [cidade, uf].filter(Boolean).join("/") ||
             "Recife/PE",
         cidade,
         uf,
-        modelo: str(r.modelo ?? r.modalidade ?? r.work_model),
+        modelo: humanize(str(r.modelo ?? r.modalidade ?? r.work_model)) || "Presencial",
         tipo: str(r.tipo ?? r.tipo_contrato ?? r.contract_type),
         senioridade,
         nivel: str(r.nivel) || senioridade || undefined,
         resumo: str(r.resumo ?? r.summary ?? r.chamada),
-        responsabilidades: toList(
-            r.responsabilidades ?? r.atividades ?? r.responsibilities,
-        ),
+        responsabilidades: toList(r.responsabilidades ?? r.atividades ?? r.responsibilities),
         requisitos: toList(r.requisitos ?? r.habilidades ?? r.requirements),
         diferenciais: toList(r.diferenciais ?? r.nice_to_have),
         beneficios: toList(r.beneficios ?? r.benefits),
@@ -153,12 +153,7 @@ const vazio = (): Paginado<Vaga> => ({
 const fallbackLista = (motivo: unknown): Paginado<Vaga> => {
     console.error("[getVagas] fallback:", motivo);
     return IS_DEV
-        ? {
-              data: vagasMock,
-              current_page: 1,
-              last_page: 1,
-              total: vagasMock.length,
-          }
+        ? { data: vagasMock, current_page: 1, last_page: 1, total: vagasMock.length }
         : vazio();
 };
 
