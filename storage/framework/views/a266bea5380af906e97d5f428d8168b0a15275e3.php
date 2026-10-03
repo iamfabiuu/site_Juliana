@@ -414,6 +414,7 @@
 										</tr>
 										</thead>
 										<tbody>
+<<<<<<< HEAD
 <?php $__currentLoopData = $vagas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vaga): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 <tr>
   <td><?php echo e($vaga->titulo); ?></td>
@@ -426,6 +427,19 @@
   </td>
 </tr>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>							
+=======
+											<?php $__currentLoopData = $vagas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vaga): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>  	
+											<?php if($vaga->status != "habilitada"){ continue; } ?>
+										<tr>
+										  <td><?php echo e($vaga->titulo); ?></td>
+										  <td class="area"><?php echo e($vaga->area); ?></td>
+										  <td class="nivel"><?php echo e($vaga->nivel); ?></td>
+										  <td><?php echo e($vaga->cidade); ?> - <?php echo e($vaga->uf); ?></td>
+										  <td style="text-align: center;"><a href="<?php echo e(route('formCadastroVaga')); ?>/<?php echo e($vaga->slug); ?>" class="button icon bt_small_m fa-search visualizar">Visualizar</a></td>
+										</tr>
+										<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+										
+>>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
 										</tbody>
 										
 									  </table>

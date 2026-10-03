@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "b019619968a91764e7417ef8f06b1e33",
+=======
+    "content-hash": "c7c5e59a90021ccc2f4722342e5f2a24",
+>>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -537,6 +541,7 @@
             "time": "2020-12-29T14:50:06+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "ezyang/htmlpurifier",
             "version": "v4.19.1",
             "source": {
@@ -598,6 +603,8 @@
             "time": "2026-09-15T15:42:51+00:00"
         },
         {
+=======
+>>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
             "name": "fruitcake/laravel-cors",
             "version": "v2.2.0",
             "source": {
@@ -7943,12 +7950,21 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
+<<<<<<< HEAD
     "stability-flags": {},
+=======
+    "stability-flags": [],
+>>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.3|^8.0"
     },
+<<<<<<< HEAD
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
+=======
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+>>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
 }

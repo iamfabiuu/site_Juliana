@@ -414,6 +414,7 @@
 										</tr>
 										</thead>
 										<tbody>
+<<<<<<< HEAD
 @foreach ($vagas as $vaga)
 <tr>
   <td>{{ $vaga->titulo }}</td>
@@ -426,6 +427,19 @@
   </td>
 </tr>
 @endforeach							
+=======
+											@foreach ($vagas as $vaga)  	
+											<?php if($vaga->status != "habilitada"){ continue; } ?>
+										<tr>
+										  <td>{{ $vaga->titulo }}</td>
+										  <td class="area">{{ $vaga->area }}</td>
+										  <td class="nivel">{{ $vaga->nivel }}</td>
+										  <td>{{ $vaga->cidade }} - {{ $vaga->uf }}</td>
+										  <td style="text-align: center;"><a href="{{ route('formCadastroVaga') }}/{{ $vaga->slug }}" class="button icon bt_small_m fa-search visualizar">Visualizar</a></td>
+										</tr>
+										@endforeach
+										
+>>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
 										</tbody>
 										
 									  </table>
