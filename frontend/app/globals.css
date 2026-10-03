@@ -1,0 +1,453 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   COSTA DH — Design System
+   Base: Handoff de Identidade Visual v1 (Ago/2026)
+   Fontes: Belleza (display, serifada) + Manrope (body, sans)
+   ========================================================================== */
+
+@theme {
+  /* ---- Paleta de marca (§3) ---- */
+  --color-azul: #0b3550; /* Azul Petróleo — primária */
+  --color-verde: #556e65; /* Verde Musgo — secundária */
+  --color-sage: #87997f; /* Verde Sálvia — neutro suave */
+  --color-terracota: #ca8c47; /* Terracota — acento quente */
+  --color-amarelo: #ebc000; /* Amarelo Mostarda — acento pontual */
+  --color-off: #ece6da; /* O-White — fundo alternativo */
+
+  /* ---- Tokens semânticos (§3.2) ---- */
+  --color-bg-base: #ffffff;
+  --color-bg-alt: var(--color-off);
+  --color-bg-dark: var(--color-azul);
+  --color-text-primary: var(--color-azul);
+  --color-text-secondary: var(--color-verde);
+  --color-text-on-dark: var(--color-off);
+  --color-accent: var(--color-terracota);
+  --color-disabled: var(--color-sage);
+  --color-border-subtle: rgb(11 53 80 / 0.12);
+  --color-danger: #c0392b; /* fora da paleta, só p/ erro de UI (§6) */
+
+  /* ---- Tipografia (§4) ---- */
+  --font-display: var(--font-belleza), Georgia, "Times New Roman", serif;
+  --font-sans:
+    var(--font-manrope), -apple-system, "Segoe UI", Arial, sans-serif;
+
+  /* ---- Forma & layout ---- */
+  --radius-xl2: 24px;
+  --breakpoint-site: 1200px;
+
+  /* ---- Espaço de proteção do logo (§2.2) ---- */
+  --logo-clearspace: 0.5em;
+
+  /* ---- Movimento ---- */
+  --animate-caret: caret 1s steps(2, start) infinite;
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-fade-up: fade-up 0.6s ease-out both;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg-base text-text-primary font-sans antialiased leading-relaxed;
+  }
+
+  /* H1 e H2 em Belleza Regular — a família não tem bold (§4.1) */
+  h1,
+  h2 {
+    @apply font-display font-normal tracking-tight;
+  }
+
+  /* H3 em Manrope SemiBold 20–22px (§4.4) */
+  h3 {
+    @apply font-sans font-semibold text-xl md:text-[22px] leading-snug;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-sans font-semibold leading-snug;
+  }
+
+  /* Verde-musgo é seguro p/ corpo de texto sobre fundo claro (§3.1) */
+  p {
+    @apply text-text-secondary;
+  }
+
+  a {
+    @apply text-azul underline-offset-4 transition-colors duration-300;
+  }
+  a:hover {
+    @apply text-terracota;
+  }
+
+  /* Foco visível em toda a UI — acessibilidade */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-terracota;
+  }
+
+  ::selection {
+    @apply bg-azul text-off;
+  }
+
+  img,
+  svg,
+  video {
+    @apply block max-w-full h-auto;
+  }
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+
+@keyframes caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   UTILITIES  (nível raiz — @utility NÃO pode ser aninhado)
+   ========================================================================== */
+
+@utility container-site {
+  @apply mx-auto w-full px-6;
+  max-width: 1200px;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-4
+         font-sans font-semibold text-sm transition-all duration-300
+         cursor-pointer select-none;
+}
+
+/* Respiro generoso — "a identidade precisa respirar" (§1.1) */
+@utility breathe {
+  @apply py-20 md:py-28 lg:py-32;
+}
+
+/* Faixa de padronagem restrita às bordas — nunca atrás de texto/logo (§5.2) */
+@utility pattern-band {
+  @apply absolute left-0 right-0 h-16 text-off/25 pointer-events-none select-none;
+}
+
+@utility pattern-band-top {
+  @apply pattern-band top-0;
+}
+
+@utility pattern-band-bottom {
+  @apply pattern-band bottom-0;
+}
+
+/* ==========================================================================
+   COMPONENTS
+   ========================================================================== */
+
+@layer components {
+  /* ---------- Seções ---------- */
+  .section {
+    @apply breathe;
+  }
+  .section-alt {
+    @apply breathe bg-bg-alt;
+  }
+  .section-dark {
+    @apply breathe bg-bg-dark text-text-on-dark;
+  }
+  .section-dark p,
+  .section-dark .lead {
+    @apply text-off/80;
+  }
+
+  /* ---------- Tipografia ---------- */
+  .h1 {
+    @apply font-display font-normal text-[clamp(2.4rem,5.5vw,4.2rem)]
+           leading-[1.06] tracking-tight;
+  }
+  .h2 {
+    @apply font-display font-normal text-[clamp(1.9rem,3.6vw,3rem)]
+           leading-[1.12] tracking-tight;
+  }
+  .h3 {
+    @apply font-sans font-semibold text-xl md:text-[22px] leading-snug;
+  }
+  .lead {
+    @apply font-sans text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed;
+  }
+  .body-text {
+    @apply font-sans text-base md:text-[17px] text-text-secondary leading-relaxed;
+  }
+  .caption {
+    @apply font-sans text-xs md:text-[13px] text-verde/80;
+  }
+
+  /* Eyebrow em verde-musgo: terracota não passa contraste em text-xs (§3.1) */
+  .eyebrow {
+    @apply font-sans text-xs font-bold uppercase tracking-[0.18em] text-verde;
+  }
+  .eyebrow-on-dark {
+    @apply font-sans text-xs font-bold uppercase tracking-[0.18em] text-amarelo;
+  }
+
+  /* Citação — Belleza, ênfase por tamanho/cor, nunca bold (§4.1) */
+  .quote {
+    @apply font-display text-2xl md:text-3xl leading-snug text-azul
+           border-l-2 border-terracota pl-6;
+  }
+
+  /* ---------- Botões (§6) ---------- */
+  .btn-primary {
+    @apply btn bg-azul text-off hover:bg-terracota hover:-translate-y-0.5;
+  }
+  .btn-ghost {
+    @apply btn border border-verde/50 text-verde
+           hover:bg-verde hover:text-off hover:border-verde;
+  }
+  .btn-light {
+    /* amarelo como FUNDO de bloco pequeno com texto azul — permitido (§3.1) */
+    @apply btn bg-off text-azul hover:bg-amarelo;
+  }
+  .btn-outline-light {
+    @apply btn border border-off/40 text-off hover:bg-off hover:text-azul;
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    @apply bg-disabled text-off/70 pointer-events-none translate-y-0 opacity-70;
+  }
+
+  /* ---------- Cards ---------- */
+  .card {
+    /* sem box-shadow: sombras pesadas são uso indevido (§1.1) */
+    @apply rounded-xl2 bg-bg-base border border-border-subtle p-8
+           transition-all duration-300
+           hover:border-terracota/50 hover:-translate-y-1;
+  }
+  .card-alt {
+    @apply rounded-xl2 bg-bg-alt border border-border-subtle p-8
+           transition-all duration-300 hover:border-terracota/50 hover:-translate-y-1;
+  }
+  .card-title {
+    @apply font-sans font-semibold text-lg text-azul;
+  }
+  .card-icon {
+    @apply text-verde w-6 h-6;
+  }
+  .card-icon-accent {
+    @apply text-terracota w-6 h-6;
+  }
+
+  /* ---------- Tags ---------- */
+  .tag {
+    @apply inline-flex items-center rounded-full bg-verde/10 px-3 py-1
+           font-sans text-xs font-semibold text-verde;
+  }
+  .tag-accent {
+    @apply inline-flex items-center rounded-full bg-terracota/15 px-3 py-1
+           font-sans text-xs font-semibold text-azul;
+  }
+
+  /* ---------- Logotipo: clear space (§2.2) e tamanho mínimo (§2.3) ---------- */
+  .logo-wrap {
+    @apply inline-flex items-center;
+    padding: var(--logo-clearspace);
+  }
+  .logo-h {
+    @apply min-w-[120px]; /* assinatura horizontal — versão 2 */
+  }
+  .logo-full {
+    @apply min-w-[180px]; /* principal c/ descritivo — versão 1 */
+  }
+  .logo-mark {
+    @apply min-w-[32px]; /* símbolo isolado / favicon */
+  }
+  .logo-navy {
+    @apply text-azul; /* positiva — fundo claro */
+  }
+  .logo-light {
+    @apply text-off; /* negativa — fundo escuro */
+  }
+
+  /* ---------- Header (§6) ---------- */
+  .site-header {
+    @apply sticky top-0 z-50 w-full bg-bg-base/90 backdrop-blur-sm
+           border-b border-border-subtle;
+  }
+  .nav-link {
+    @apply font-sans font-medium text-sm text-azul no-underline
+           transition-colors duration-300 hover:text-terracota;
+  }
+  .nav-link-active {
+    @apply font-sans font-semibold text-sm text-azul no-underline
+           border-b-2 border-terracota pb-1;
+  }
+
+  /* ---------- Footer (§6) ---------- */
+  .site-footer {
+    @apply relative bg-bg-dark text-text-on-dark pt-20 pb-10 overflow-hidden;
+  }
+  .site-footer a {
+    @apply text-off/80 no-underline hover:text-amarelo;
+  }
+  .footer-heading {
+    @apply font-sans text-xs font-bold uppercase tracking-[0.18em] text-off/60 mb-4;
+  }
+
+  /* ---------- Formulários (§6) ---------- */
+  .label {
+    @apply block font-sans font-medium text-sm text-azul mb-2;
+  }
+  .input,
+  .textarea,
+  .select {
+    @apply w-full rounded-xl2 bg-bg-base border border-azul/20
+           font-sans text-base text-azul px-4 py-3 outline-none
+           transition-all duration-300 placeholder:text-verde/50;
+  }
+  .input:focus,
+  .textarea:focus,
+  .select:focus {
+    @apply border-terracota ring-2 ring-terracota/35;
+  }
+  .input:disabled,
+  .textarea:disabled {
+    @apply bg-sage/15 text-verde/60 cursor-not-allowed;
+  }
+  .input-error {
+    @apply border-danger ring-2 ring-danger/25;
+  }
+  .form-error {
+    @apply font-sans text-xs font-medium text-danger mt-1.5;
+  }
+  .form-hint {
+    @apply font-sans text-xs text-verde/80 mt-1.5;
+  }
+
+  /* ---------- Padronagens (§5) ---------- */
+  /* Marca d'água monocromática: opacidade 5–10% APENAS (§5.1) */
+  .pattern-watermark {
+    @apply absolute inset-0 text-azul opacity-[0.07]
+           pointer-events-none select-none;
+  }
+  .pattern-watermark-light {
+    @apply absolute inset-0 text-off opacity-[0.08]
+           pointer-events-none select-none;
+  }
+  /* Essencial: a mais flexível, pode repetir com liberdade (§5.3) */
+  .pattern-essential {
+    @apply text-sage/20 pointer-events-none select-none;
+  }
+
+  /* ---------- Divisores ---------- */
+  .divider {
+    @apply h-px w-full bg-border-subtle;
+  }
+  .divider-light {
+    @apply h-px w-full bg-off/15;
+  }
+
+  /* ---------- Acessibilidade ---------- */
+  .sr-only-focusable:focus {
+    @apply not-sr-only fixed top-4 left-4 z-[999] bg-azul text-off
+           px-4 py-2 rounded-full font-sans text-sm font-semibold;
+  }
+}
+
+/* ==========================================================================
+   PREFERS-REDUCED-MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-marquee,
+  .animate-caret,
+  .animate-fade-up {
+    animation: none !important;
+  }
+
+  .btn-primary:hover,
+  .btn-light:hover,
+  .btn-ghost:hover,
+  .btn-outline-light:hover,
+  .card:hover,
+  .card-alt:hover {
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   PRINT (propostas em PDF geradas pelo site — §2.1 versão 1)
+   ========================================================================== */
+
+@media print {
+  body {
+    @apply bg-white text-azul;
+  }
+  .site-header,
+  .site-footer,
+  .btn,
+  [class*="pattern-"] {
+    display: none !important;
+  }
+  a {
+    text-decoration: underline;
+  }
+}
+.animate-pattern-scroll-right {
+  background-image: url("/contato.svg");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position: center 0;
+  animation: pattern-scroll-up 80s linear infinite;
+}
+
+@keyframes pattern-scroll-up {
+  from {
+    background-position: center 1000px;
+  }
+  to {
+    background-position: center 0;
+  }
+}
