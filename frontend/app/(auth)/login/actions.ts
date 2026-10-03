@@ -1,11 +1,9 @@
-// app/login/actions.ts
 "use server";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export type LoginState = { error?: string };
 
-const PHP = process.env.PHP_URL ?? "https://api.costadh.com.br";
+const API = (process.env.API_URL ?? "https://api.costadh.com.br/api").replace(/\/+$/, "");
 
 export async function login(
   _prev: LoginState,
@@ -19,39 +17,27 @@ export async function login(
   if (senha.length < 6)
     return { error: "A senha deve ter no mínimo 6 caracteres." };
 
-  let res: Response;
+  let destino: string;
   try {
-    res = await fetch(`${PHP}/valida_login.php`, {
+    const res = await fetch(`${API}/login`, {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      // ⚠️ use os mesmos `name` que o PHP lê em $_POST
-      body: new URLSearchParams({ email, senha }),
-      redirect: "manual", // capturamos o cookie antes do redirect do PHP
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ email, password: senha }),
       cache: "no-store",
     });
-  } catch {
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      if (res.status === 429) return { error: "Muitas tentativas. Aguarde 1 minuto." };
+      if (res.status === 422) return { error: "Verifique os dados informados." };
+      return { error: data?.message ?? "E-mail ou senha incorretos." };
+    }
+    if (!data?.redirect) return { error: "Resposta inesperada do sistema." };
+    destino = data.redirect;
+  } catch (e) {
+    console.error("[login]", e);
     return { error: "Sistema indisponível. Tente novamente." };
   }
 
-  const sessao = res.headers
-    .getSetCookie()
-    .find((c) => c.startsWith("PHPSESSID="))
-    ?.split(";")[0]
-    .split("=")[1];
-
-  const destino = res.headers.get("location") ?? "";
-
-  // Ajuste a regra conforme o PHP: em geral, sucesso redireciona para o painel
-  if (!sessao || !/painel|dashboard|home/i.test(destino))
-    return { error: "E-mail ou senha incorretos." };
-
-  (await cookies()).set("PHPSESSID", sessao, {
-    domain: ".costadh.com.br", // compartilha com o sistema.costadh.com.br
-    path: "/",
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-  });
-
-  redirect(new URL(destino, PHP).toString());
+  redirect(destino); // fora do try: o redirect lança exceção interna do Next
 }
