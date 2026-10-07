@@ -19,6 +19,7 @@ const parceiros = [
     { nome: "Parceiro 14", src: "/14.png" },
     { nome: "Parceiro 15", src: "/15.png" },
     { nome: "Parceiro 16", src: "/16.png" },
+    { nome: "Parceiro 17", src: "/logo_branca.svg" },
 ];
 
 function Logo({ nome, src }: { nome: string; src: string }) {
