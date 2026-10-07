@@ -47,7 +47,7 @@ export default function Parceiros() {
                 className="pointer-events-none absolute -right-4 top-10 -z-10 hidden w-[160px] select-none md:block lg:w-[200px]"
             >
                 <Image
-                    src="/superior_direito.svg"
+                    src="/Superior_direito.svg"
                     alt=""
                     width={200}
                     height={160}
