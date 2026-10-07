@@ -877,7 +877,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <Termometro />
+            {/* <Termometro /> */}
 
             {/* CONTATO */}
             <section
