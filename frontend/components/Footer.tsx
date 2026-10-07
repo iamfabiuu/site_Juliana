@@ -108,7 +108,7 @@ export default function Footer() {
                 </nav>
             </div>
 
-            <div className="container-site mt-12 flex flex-col gap-2 border-t border-off/10 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
+            <div className="container-site mt-12 flex flex-col gap-3 border-t border-off/10 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
                 <p>
                     © {new Date().getFullYear()} Costa Desenvolvimento Humano.
                     Todos os direitos reservados.
@@ -116,8 +116,8 @@ export default function Footer() {
                 <p className="text-off/50">
                     Pessoas no centro. Estratégia que desenvolve pessoas.
                 </p>
+                <CreditoLumminin />
             </div>
-            <CreditoLumminin />
         </footer>
     );
 }
