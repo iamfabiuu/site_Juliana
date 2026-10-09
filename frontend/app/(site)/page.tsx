@@ -614,7 +614,7 @@ export default function Home() {
                         <div className="lg:sticky lg:top-28">
                             <div className="relative aspect-[4/5] overflow-hidden rounded-xl2 bg-azul/40">
                                 <Image
-                                    src="/IMG_5001.JPEG"
+                                    src="/Juliana_Costa.png"
                                     alt="Juliana Costa, psicóloga e estrategista em desenvolvimento humano"
                                     fill
                                     className="object-cover"
