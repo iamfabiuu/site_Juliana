@@ -232,7 +232,9 @@
                 <tr>
                 
                 <td class="mailbox-star">
-                    <span class="badge badge-info"><?php if($candidato->id_candidatura != null){ echo "É candidato"; } ?></span>
+                    <span class="badge badge-info"><?php if ($candidato->id_candidatura != null) {
+                        echo 'É candidato';
+                    } ?></span>
                 </td>
                 <td style="display: none;" class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                 <td class="mailbox-name">{{$candidato->nome}}</td>
@@ -288,7 +290,7 @@
                
         </div>
     </div>
-    <script src="http://localhost/jcdesenvolve/public/vendor/jquery/jquery.min.js"></script>
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     
     <script>
         $(document).ready(function() {
