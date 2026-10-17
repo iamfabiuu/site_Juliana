@@ -56,12 +56,14 @@ export default function CandidaturaForm({
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (enviando) return;
+
+        // Monta ANTES de travar o fieldset (campo disabled não entra no FormData)
+        const data = new FormData(e.currentTarget);
+        data.set("vaga", vaga);
+        data.set("slug", slug);
+
         setErro("");
         setEnviando(true);
-
-        const data = new FormData(e.currentTarget);
-        data.append("vaga", vaga);
-        data.append("slug", slug);
 
         try {
             await enviarCandidatura(data);
@@ -148,7 +150,7 @@ export default function CandidaturaForm({
                                 Estado *
                                 <div className="relative">
                                     <select
-                                        name="estado"
+                                        name="uf"
                                         required
                                         defaultValue=""
                                         className={`${input} appearance-none pr-9`}
@@ -202,7 +204,7 @@ export default function CandidaturaForm({
                             </span>
                             <input
                                 type="file"
-                                name="curriculo"
+                                name="arquivo"
                                 required
                                 accept={ACEITOS}
                                 className="sr-only"
