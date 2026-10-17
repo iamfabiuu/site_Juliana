@@ -273,7 +273,7 @@ export default function CandidaturaForm({
                     <label className="flex items-start gap-3 text-sm text-off/80">
                         <input
                             type="checkbox"
-                            name="consentimento"
+                            name="concordo"
                             value="1"
                             required
                             className="mt-1 h-4 w-4 shrink-0 accent-terracota"
