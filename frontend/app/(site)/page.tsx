@@ -251,7 +251,7 @@ export default function Home() {
                     <Reveal delay={0.15}>
                         <div className="relative aspect-[4/5] overflow-hidden rounded-xl2 bg-azul lg:aspect-[3/4]">
                             <Image
-                                src="/hero.jpg"
+                                src="/hero02.jpg"
                                 alt="Consultoria em gestão de pessoas — Costa DH"
                                 fill
                                 sizes="(max-width: 1024px) 100vw, 45vw"
