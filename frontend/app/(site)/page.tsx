@@ -369,7 +369,7 @@ export default function Home() {
 
                     <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {solucoes.map((s, i) => (
-                            <Reveal key={s.t} delay={i * 0.08}>
+                            <Reveal key={i} delay={i * 0.08}>
                                 <article className="group h-full rounded-xl2 border border-off/15 bg-off/[0.06] p-8 transition-all duration-500 hover:-translate-y-1 hover:border-amarelo/40 hover:bg-off/[0.1]">
                                     <s.icon
                                         className="text-amarelo"
