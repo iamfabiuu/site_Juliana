@@ -29,7 +29,7 @@ const credenciais = [
         d: "6+ anos conectando pessoas a indicadores de resultado",
     },
     {
-        t: "Fatores Psicossociais",
+        t: "Gamificação e Metodologias Ativas em Educação",
         d: "Atuação aplicada em gestão de riscos e saúde organizacional.",
     },
     {
@@ -39,7 +39,7 @@ const credenciais = [
 ];
 
 const atuacao = [
-    "Hunting e seleção",
+    "Hunting Executivo",
     "Diagnóstico organizacional",
     "Cultura e clima",
     "Formação de lideranças",
@@ -50,12 +50,20 @@ const atuacao = [
 const solucoes = [
     {
         icon: Search,
-        t: "Hunting e seleção",
+        t: (
+            <>
+                Hunting Executivo
+                <br />
+                <span className="text-sm font-normal opacity-70">
+                    (Apenas Fecomércio)
+                </span>
+            </>
+        ),
         d: "Recrutamento de profissionais alinhados ao desafio, à cultura e às necessidades do negócio.",
     },
     {
         icon: Users,
-        t: "Cultura & Clima",
+        t: "Ações de Clima e Cultura",
         d: "Diagnósticos, escuta e consultoria organizacional em ações para fortalecer cultura, relações e engajamento. Apoio à gestão dos fatores psicossociais, incluindo demandas relacionadas à NR-01.",
     },
     {

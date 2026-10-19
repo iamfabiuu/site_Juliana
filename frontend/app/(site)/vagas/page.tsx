@@ -1,13 +1,19 @@
 // app/vagas/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Compass, HeartHandshake, Sparkles } from "lucide-react";
+import {
+    Target,
+    Puzzle,
+    HeartHandshake,
+    Network,
+    ArrowRight,
+} from "lucide-react";
 import { getVagas } from "@/lib/vagas";
 import { normalizeLista } from "@/lib/normalizeVaga";
 import VagasList from "./VagasList";
 
 export const revalidate = 60;
-export const dynamic = 'force-dynamic'; 
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
     title: "Trabalhe com a gente | Costa DH",
@@ -25,19 +31,24 @@ export const metadata: Metadata = {
 
 const valores = [
     {
-        icon: Compass,
-        titulo: "Método antes de opinião",
-        texto: "Diagnóstico, dado e hipótese testável. Achismo aqui não passa da porta.",
+        icon: Target,
+        titulo: "Gestão por competências",
+        texto: "Mapeamos competências, comportamentos e necessidades para transformar desenvolvimento em estratégia ao que o negócio precisa.",
+    },
+    {
+        icon: Puzzle,
+        titulo: "Gamificação e metodologias ativas",
+        texto: "Engajamento também se constrói pela experiência: Aprender fazendo, refletindo e aplicando com elementos de jogos para estimular colaboração e aprendizagem.",
     },
     {
         icon: HeartHandshake,
-        titulo: "Conversas difíceis com cuidado",
-        texto: "Feedback direto, sem crueldade. Clareza é uma forma de respeito.",
+        titulo: "Cultura na prática",
+        texto: "Toda solução precisa fazer sentido: Consideramos valores, contexto, relações e momento do negócio para soluções aplicáveis e sustentáveis.",
     },
     {
-        icon: Sparkles,
-        titulo: "Autonomia com contexto",
-        texto: "Você decide o caminho; a gente combina o destino e sustenta junto.",
+        icon: Network,
+        titulo: "Visão sistêmica",
+        texto: "Pessoas não são uma área isolada do negócio: Conectar comportamento, liderança, cultura, processos e estratégia para compreender o desafio da jornada.",
     },
 ];
 
@@ -58,9 +69,9 @@ export default async function VagasPage() {
                             nossas.
                         </h1>
                         <p className="mt-5 max-w-xl text-lg leading-relaxed text-azul/70">
-                            Somos um time pequeno, técnico e inquieto. Se você
-                            gosta de método, dados e conversas difíceis feitas
-                            com cuidado, vem com a gente.
+                            Somos uma consultoria boutique. Se você gosta de
+                            método, dados e adequação à sua necessidade, vem com
+                            a gente.
                         </p>
 
                         <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -75,7 +86,7 @@ export default async function VagasPage() {
                                 />
                             </a>
                             <Link
-                                href="/sobre"
+                                href="https://costadh.com.br"
                                 className="inline-flex items-center gap-2 rounded-full border border-azul/20 px-7 py-3.5 font-semibold text-azul transition-colors duration-300 hover:border-azul hover:bg-azul/5"
                             >
                                 Conhecer a Costa DH
@@ -92,14 +103,6 @@ export default async function VagasPage() {
                                 {String(total).padStart(2, "0")}
                             </dd>
                         </div>
-                        <div className="rounded-xl2 border border-azul/10 bg-white/60 p-6">
-                            <dt className="text-xs font-semibold uppercase tracking-widest text-azul/50">
-                                Base
-                            </dt>
-                            <dd className="mt-1 font-display text-2xl text-azul">
-                                Recife/PE · híbrido
-                            </dd>
-                        </div>
                     </dl>
                 </div>
             </section>
@@ -109,14 +112,14 @@ export default async function VagasPage() {
                 <h2 className="font-display text-2xl text-azul md:text-3xl">
                     Como a gente trabalha
                 </h2>
-                <ul className="mt-8 grid gap-5 md:grid-cols-3">
+                <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                     {valores.map(({ icon: Icon, titulo, texto }) => (
                         <li
                             key={titulo}
-                            className="rounded-xl2 border border-azul/10 bg-white/60 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-terracota/40 hover:shadow-[0_20px_50px_-30px_rgba(0,0,0,.35)]"
+                            className="flex h-full flex-col rounded-xl2 border border-azul/10 bg-white/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-terracota/40 hover:shadow-[0_20px_50px_-30px_rgba(0,0,0,.35)]"
                         >
                             <Icon size={22} className="text-terracota" />
-                            <h3 className="mt-4 font-display text-xl text-azul">
+                            <h3 className="mt-4 font-display text-lg leading-snug text-azul">
                                 {titulo}
                             </h3>
                             <p className="mt-2 text-sm leading-relaxed text-azul/70">
@@ -136,8 +139,11 @@ export default async function VagasPage() {
             <section className="container-site">
                 <div className="mt-16 flex flex-wrap items-center justify-between gap-6 rounded-xl2 bg-terracota p-9 shadow-[0_24px_60px_-28px_rgba(0,0,0,.45)]">
                     <p className="max-w-xl font-display text-2xl leading-snug text-off">
-                        Não achou sua oportunidade? Manda seu currículo que a
-                        gente guarda com carinho.
+                        Não encontrou sua oportunidade? 🤷🏻‍♂️
+                        <br />
+                        Ao enviar seu perfil, ele fica no nosso banco de
+                        talentos estrategicamente para o melhor momento/
+                        oportunidade.
                     </p>
                     <a
                         href="mailto:contato@costadh.com.br?subject=Banco%20de%20talentos"
