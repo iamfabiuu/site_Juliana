@@ -50,15 +50,7 @@ const atuacao = [
 const solucoes = [
     {
         icon: Search,
-        t: (
-            <>
-                Hunting Executivo
-                <br />
-                <span className="text-sm font-normal opacity-70">
-                    (Apenas Fecomércio)
-                </span>
-            </>
-        ),
+        t: "Hunting Executivo",
         d: "Recrutamento de profissionais alinhados ao desafio, à cultura e às necessidades do negócio.",
     },
     {

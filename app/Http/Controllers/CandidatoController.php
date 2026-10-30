@@ -2,336 +2,220 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
 use App\Models\Candidato;
 use App\Models\Candidatura;
 use App\Models\Vagas;
 use Illuminate\Http\Request;
 
 class CandidatoController extends Controller
-=======
-use Illuminate\Http\Request;
-use App\Models\Vagas;
-use App\Models\Candidato;
-use App\Models\Candidatura;
-
-class candidatoController extends Controller
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index_painel(Request $request)
-<<<<<<< HEAD
+    /* =========================================================
+     |  Helpers
+     ========================================================= */
+
+    // Colunas comuns das listagens de candidaturas (evita repetição)
+    private function colunasCandidatura(array $extras = []): array
     {
-        $candidaturas = Candidatura::join('candidato', 'candidato.id', '=', 'candidatura.candidato_id')
-        ->join('vagas', 'vagas.id', '=', 'candidatura.vaga_id')
-        ->select('candidatura.id as id_candidatura', 'candidatura.created_at', 'candidato.id as id_candidato', 'candidato.nome', 'candidato.email', 'candidato.telefone', 'candidato.curriculo', 'candidato.sexo',
-            'candidato.uf', 'candidato.cidade', 'candidatura.created_at as candidatura_criada_em', 'candidatura.status as status_candidatura',
-            'vagas.titulo as titulo_vaga', 'vagas.area as area_vaga', 'vagas.nivel as nivel_vaga', 'vagas.uf as uf_vaga', 'vagas.cidade as cidade_vaga')
-        ->orderBy('candidatura.id', 'DESC')
-        ->paginate(50);
+        return array_merge([
+            'candidatura.id as id_candidatura',
+            'candidatura.created_at',
+            'candidato.id as id_candidato',
+            'candidato.nome',
+            'candidato.email',
+            'candidato.telefone',
+            'candidato.curriculo',
+            'candidato.sexo',
+            'candidato.uf',
+            'candidato.cidade',
+            'candidatura.created_at as candidatura_criada_em',
+            'candidatura.status as status_candidatura',
+            'vagas.titulo as titulo_vaga',
+            'vagas.area as area_vaga',
+            'vagas.nivel as nivel_vaga',
+            'vagas.uf as uf_vaga',
+            'vagas.cidade as cidade_vaga',
+        ], $extras);
+    }
+
+    private function queryCandidaturas()
+    {
+        return Candidatura::join('candidato', 'candidato.id', '=', 'candidatura.candidato_id')
+            ->join('vagas', 'vagas.id', '=', 'candidatura.vaga_id');
+    }
+
+    // Lista de candidatos sem GROUP BY (compatível com ONLY_FULL_GROUP_BY)
+    // Mantém o alias "id_candidatura" para não quebrar a view
+    private function queryCandidatos()
+    {
+        return Candidato::query()
+            ->select('candidato.*')
+            ->selectSub(
+                Candidatura::selectRaw('MAX(id)')->whereColumn('candidatura.candidato_id', 'candidato.id'),
+                'id_candidatura'
+            );
+    }
+
+    /* =========================================================
+     |  Painel Candidatos (candidaturas)
+     ========================================================= */
+
+    public function index_painel(Request $request)
+    {
+        $candidaturas = $this->queryCandidaturas()
+            ->select($this->colunasCandidatura())
+            ->orderByDesc('candidatura.id')
+            ->paginate(50);
+
         $vagas = Vagas::orderBy('titulo')->get(['id', 'titulo']);
 
-        // dd($candidaturas);
-=======
-    {   
-        $candidaturas = Candidatura::join('candidato', 'candidato.id', '=', 'candidatura.candidato_id')
-        ->join('vagas', 'vagas.id', '=', 'candidatura.vaga_id')
-        ->select('candidatura.id as id_candidatura', 'candidatura.created_at', 'candidato.id as id_candidato', 'candidato.nome', 'candidato.email', 'candidato.telefone', 'candidato.curriculo', 'candidato.sexo', 
-        'candidato.uf', 'candidato.cidade', 'candidatura.created_at as candidatura_criada_em', 'candidatura.status as status_candidatura',
-        'vagas.titulo as titulo_vaga', 'vagas.area as area_vaga', 'vagas.nivel as nivel_vaga', 'vagas.uf as uf_vaga', 'vagas.cidade as cidade_vaga')
-        ->orderBy('candidatura.id', 'DESC')
-        ->paginate(50);
+        return view('painel.index', compact('candidaturas', 'vagas'));
+    }
+
+    public function index_painel_filtro(Request $request)
+    {
+        $cand = $this->queryCandidaturas()->select($this->colunasCandidatura());
+
+        if ($request->filled('nome_candidato')) {
+            // Com nome informado, só esse filtro é aplicado
+            $cand->where('candidato.nome', 'like', '%'.$request->nome_candidato.'%');
+        } else {
+            if ($request->filled('titulo_vaga')) {
+                $cand->where('vagas.titulo', 'like', '%'.$request->titulo_vaga.'%');
+            }
+
+            $filtrosExatos = [
+                'uf' => 'vagas.uf',
+                'cidade' => 'vagas.cidade',
+                'area' => 'vagas.area',
+                'nivel' => 'vagas.nivel',
+                'escolaridade' => 'vagas.escolaridade',
+                'tipo_contrato' => 'vagas.tipo_contrato',
+                'uf_candidato' => 'candidato.uf',
+                'cidade_candidato' => 'candidato.cidade',
+            ];
+
+            foreach ($filtrosExatos as $campo => $coluna) {
+                if ($request->filled($campo)) {
+                    $cand->where($coluna, $request->input($campo));
+                }
+            }
+        }
+
+        $candidaturas = $cand->orderByDesc('candidatura.id')
+            ->paginate(50)
+            ->withQueryString(); // mantém filtros na paginação
+
         $vagas = Vagas::orderBy('titulo')->get(['id', 'titulo']);
-        //dd($candidaturas);
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
+
         return view('painel.index', compact('candidaturas', 'vagas'));
     }
 
     public function contar_candidatos_vaga(Request $request)
     {
-        $vaga_id = $request->vaga_id;
-        $total = Candidatura::where('vaga_id', $vaga_id)->count();
-        $vaga = Vagas::find($vaga_id);
-<<<<<<< HEAD
+        $vaga = Vagas::find($request->vaga_id);
 
-=======
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
         return response()->json([
-            'total' => $total,
-            'titulo' => $vaga ? $vaga->titulo : '',
+            'total' => Candidatura::where('vaga_id', $request->vaga_id)->count(),
+            'titulo' => $vaga->titulo ?? '',
         ]);
     }
 
-    public function index_painel_cand(Request $request)
-<<<<<<< HEAD
-    {
-=======
-    {   
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
-        $candidatos = Candidato::LeftJoin('candidatura', 'candidatura.candidato_id', '=', 'candidato.id')
-        ->select('candidato.*', 'candidatura.id as id_candidatura')
-       // ->whereNull('candidatura.id')
-        ->orderBy('candidato.created_at', 'DESC')
-        ->groupBy('candidato.id')
-        ->paginate(50);
-<<<<<<< HEAD
+    /* =========================================================
+     |  Currículos (todos os candidatos)
+     ========================================================= */
 
-        // dd($candidatos);
-=======
-       // dd($candidatos);
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
+    public function index_painel_cand(Request $request)
+    {
+        $candidatos = $this->queryCandidatos()
+            ->orderByDesc('candidato.created_at')
+            ->paginate(50);
+
         return view('painel.curriculos', compact('candidatos'));
     }
 
-    public function index_painel_filtro(Request $request)
-<<<<<<< HEAD
-    {
-        // dd($request->all());
-        $cand = Candidatura::query();
-
-        $cand->join('candidato', 'candidato.id', '=', 'candidatura.candidato_id')
-         ->join('vagas', 'vagas.id', '=', 'candidatura.vaga_id');
-
-        $cand->select('candidatura.id as id_candidatura', 'candidatura.created_at', 'candidato.id as id_candidato', 'candidato.nome', 'candidato.email', 'candidato.telefone', 'candidato.curriculo', 'candidato.sexo',
-            'candidato.uf', 'candidato.cidade', 'candidatura.created_at as candidatura_criada_em', 'candidatura.status as status_candidatura',
-            'vagas.titulo as titulo_vaga', 'vagas.area as area_vaga', 'vagas.nivel as nivel_vaga', 'vagas.uf as uf_vaga', 'vagas.cidade as cidade_vaga');
-
-        if ($request->filled('nome_candidato')) {
-            // Quando o nome do candidato é informado, apenas esse filtro é aplicado
-            $cand->where('candidato.nome', 'like', '%'.$request->nome_candidato.'%');
-        } else {
-            if ($request->filled('titulo_vaga')) {
-                $cand->where('vagas.titulo', 'like', '%'.$request->titulo_vaga.'%');
-=======
-    {   
-       //dd($request->all());
-       $cand = Candidatura::query();
-
-       $cand->join('candidato', 'candidato.id', '=', 'candidatura.candidato_id')
-        ->join('vagas', 'vagas.id', '=', 'candidatura.vaga_id');
-
-      $cand->select('candidatura.id as id_candidatura', 'candidatura.created_at', 'candidato.id as id_candidato', 'candidato.nome', 'candidato.email', 'candidato.telefone', 'candidato.curriculo', 'candidato.sexo', 
-      'candidato.uf', 'candidato.cidade', 'candidatura.created_at as candidatura_criada_em', 'candidatura.status as status_candidatura',
-      'vagas.titulo as titulo_vaga', 'vagas.area as area_vaga', 'vagas.nivel as nivel_vaga', 'vagas.uf as uf_vaga', 'vagas.cidade as cidade_vaga');
-      
-        if ($request->filled('nome_candidato')) {
-            // Quando o nome do candidato é informado, apenas esse filtro é aplicado
-            $cand->where('candidato.nome', 'like', '%' . $request->nome_candidato . '%');
-        } else {
-            if ($request->filled('titulo_vaga')) {
-                $cand->where('vagas.titulo', 'like', '%' . $request->titulo_vaga . '%');
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
-            }
-            if ($request->filled('uf')) {
-                $cand->where('vagas.uf', '=', $request->uf);
-            }
-            if ($request->filled('cidade')) {
-                $cand->where('vagas.cidade', '=', $request->cidade);
-            }
-            if ($request->filled('area')) {
-                $cand->where('vagas.area', '=', $request->area);
-            }
-            if ($request->filled('nivel')) {
-                $cand->where('vagas.nivel', '=', $request->nivel);
-            }
-            if ($request->filled('escolaridade')) {
-                $cand->where('vagas.escolaridade', '=', $request->escolaridade);
-            }
-            if ($request->filled('tipo_contrato')) {
-                $cand->where('vagas.tipo_contrato', '=', $request->tipo_contrato);
-            }
-            if ($request->filled('uf_candidato')) {
-                $cand->where('candidato.uf', '=', $request->uf_candidato);
-            }
-            if ($request->filled('cidade_candidato')) {
-                $cand->where('candidato.cidade', '=', $request->cidade_candidato);
-            }
-        }
-
-        $candidaturas = $cand->orderBy('candidatura.id', 'DESC')->paginate(50);
-        $vagas = Vagas::orderBy('titulo')->get(['id', 'titulo']);
-<<<<<<< HEAD
-
-        // dd($candidaturas);
-        return view('painel.index', compact('candidaturas', 'vagas'));
-        // ->withInput($request->all());
-    }
-
     public function index_painel_cand_filtro(Request $request)
     {
-        $cand = Candidato::query();
-
-        $cand->LeftJoin('candidatura', 'candidatura.candidato_id', '=', 'candidato.id');
-
-        $cand->select('candidato.*', 'candidatura.id as id_candidatura');
+        $cand = $this->queryCandidatos();
 
         if ($request->filled('nome_candidato')) {
             $cand->where('candidato.nome', 'like', '%'.$request->nome_candidato.'%');
-=======
-        //dd($candidaturas);
-        return view('painel.index', compact('candidaturas', 'vagas'));
-        //->withInput($request->all());
-    }
+        }
 
-    public function index_painel_cand_filtro(Request $request)
-    {   
-       
-       $cand = Candidato::query();
+        if ($request->filled(['data_inicio', 'data_fim'])) {
+            $cand->whereBetween('candidato.created_at', [
+                $request->data_inicio.' 00:00:00',
+                $request->data_fim.' 23:59:59',
+            ]);
+        }
 
-       $cand->LeftJoin('candidatura', 'candidatura.candidato_id', '=', 'candidato.id');
-
-       $cand->select('candidato.*', 'candidatura.id as id_candidatura');
-      
-        if ($request->filled('nome_candidato')) {
-            $cand->where('candidato.nome', 'like', '%' . $request->nome_candidato . '%');
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
-        }
-        if ($request->filled('data_inicio') and $request->filled('data_fim')) {
-            $cand->whereBetween('candidato.created_at', [$request->data_inicio.' 00:00', $request->data_fim.' 23:59']);
-        }
-        /*
-        if ($request->filled('area')) {
-            $cand->where('vagas.area', '=', $request->area);
-        }
-        if ($request->filled('nivel')) {
-            $cand->where('vagas.nivel', '=', $request->nivel);
-        }
-        if ($request->filled('escolaridade')) {
-            $cand->where('vagas.escolaridade', '=', $request->escolaridade);
-        }
-        if ($request->filled('tipo_contrato')) {
-            $cand->where('vagas.tipo_contrato', '=', $request->tipo_contrato);
-        }
-        */
         if ($request->filled('uf')) {
-            $cand->where('candidato.uf', '=', $request->uf);
+            $cand->where('candidato.uf', $request->uf);
         }
         if ($request->filled('cidade')) {
-            $cand->where('candidato.cidade', '=', $request->cidade);
+            $cand->where('candidato.cidade', $request->cidade);
         }
 
-        $candidatos = $cand->orderBy('candidato.created_at', 'DESC')
-        ->groupBy('candidato.id')
-        ->paginate(50);
-<<<<<<< HEAD
+        $candidatos = $cand->orderByDesc('candidato.created_at')
+            ->paginate(50)
+            ->withQueryString();
 
-        // dd($candidaturas);
         return view('painel.curriculos', compact('candidatos'));
     }
+
+    /* =========================================================
+     |  Detalhe e edição
+     ========================================================= */
 
     public function detalhe_candidato(Request $request)
     {
-        $candidatura_candidato = Candidatura::join('candidato', 'candidato.id', '=', 'candidatura.candidato_id')
-        ->join('vagas', 'vagas.id', '=', 'candidatura.vaga_id')
-        ->select('candidatura.id as id_candidatura', 'candidatura.created_at', 'candidato.id as id_candidato', 'candidato.nome', 'candidato.email', 'candidato.telefone', 'candidato.curriculo', 'candidato.sexo',
-            'candidato.uf', 'candidato.cidade', 'candidatura.updated_at', 'candidatura.status as status_candidatura', 'candidatura.observacoes',
-            'vagas.titulo as titulo_vaga', 'vagas.area as area_vaga', 'vagas.nivel as nivel_vaga', 'vagas.uf as uf_vaga', 'vagas.cidade as cidade_vaga')
-        ->where('candidatura.candidato_id', $request->id)
-        ->orderBy('candidatura.id', 'DESC')
-        ->get();
-        // dd($candidatura_candidato);
-        $candidato = Candidato::where('id', $request->id)
-        ->first();
+        $candidato = Candidato::findOrFail($request->id);
 
-        // dd($candidato);
-        return view('painel.detalhe', compact('candidato'), compact('candidatura_candidato'));
+        $candidatura_candidato = $this->queryCandidaturas()
+            ->select($this->colunasCandidatura([
+                'candidatura.updated_at',
+                'candidatura.observacoes',
+            ]))
+            ->where('candidatura.candidato_id', $candidato->id)
+            ->orderByDesc('candidatura.id')
+            ->get();
+
+        return view('painel.detalhe', compact('candidato', 'candidatura_candidato'));
     }
 
     public function evoluir_candidato_vaga(Request $request)
     {
-        $dados = $request->all();
+        $candidatura = Candidatura::findOrFail($request->id_candidatura);
 
-        $candidatura_up = Candidatura::findOrFail($request->id_candidatura);
-        $candidatura_up->fill($dados);
-        if ($candidatura_up->save()) {
-            return redirect()->back()->with('success', 'Evolução registrada com sucesso!');
-        } else {
-            return redirect()->back()->with('error', 'Não foi possível atualizar as informações, tente novamente mais tarde!');
-        }
+        // Só os campos permitidos (evita mass assignment)
+        $candidatura->fill($request->only(['status', 'observacoes']));
+
+        return $candidatura->save()
+            ? back()->with('success', 'Evolução registrada com sucesso!')
+            : back()->with('error', 'Não foi possível atualizar as informações, tente novamente mais tarde!');
     }
 
     public function dados_candidato_vaga(Request $request)
     {
-        $dados = $request->all();
-        // dd($request->id_candidato);
         $candidato = Candidato::findOrFail($request->id_candidato);
+
+        $dados = $request->validate([
+            'nome' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|max:255|unique:candidato,email,'.$candidato->id,
+            'telefone' => 'nullable|string|max:20',
+            'sexo' => 'nullable|string|max:20',
+            'uf' => 'nullable|string|size:2',
+            'cidade' => 'nullable|string|max:120',
+        ]);
 
         $candidato->fill($dados);
-        if ($candidato->save()) {
-            return redirect()->back()->with('success', 'Dados do Candidato alterados com sucesso!');
-        } else {
-            return redirect()->back()->with('error', 'Não foi possível atualizar os dados do candidato!');
-        }
+
+        return $candidato->save()
+            ? back()->with('success', 'Dados do Candidato alterados com sucesso!')
+            : back()->with('error', 'Não foi possível atualizar os dados do candidato!');
     }
-=======
-        //dd($candidaturas);
-        return view('painel.curriculos', compact('candidatos'));
-        
-    }
-
-    public function detalhe_candidato(Request $request)
-    {   
-        $candidatura_candidato = Candidatura::join('candidato', 'candidato.id', '=', 'candidatura.candidato_id')
-        ->join('vagas', 'vagas.id', '=', 'candidatura.vaga_id')
-        ->select('candidatura.id as id_candidatura', 'candidatura.created_at', 'candidato.id as id_candidato', 'candidato.nome', 'candidato.email', 'candidato.telefone', 'candidato.curriculo', 'candidato.sexo', 
-        'candidato.uf', 'candidato.cidade', 'candidatura.updated_at', 'candidatura.status as status_candidatura', 'candidatura.observacoes',
-        'vagas.titulo as titulo_vaga', 'vagas.area as area_vaga', 'vagas.nivel as nivel_vaga', 'vagas.uf as uf_vaga', 'vagas.cidade as cidade_vaga')
-        ->where('candidatura.candidato_id', $request->id)
-        ->orderBy('candidatura.id', 'DESC')
-        ->get();
-        //dd($candidatura_candidato);
-        $candidato = Candidato::where('id', $request->id)
-        ->first();
-
-        
-       // dd($candidato);
-        return view('painel.detalhe', compact('candidato'), compact('candidatura_candidato'));
-    }
-
-    public function evoluir_candidato_vaga(Request $request){
-
-        $dados = $request->all();
-        
-        $candidatura_up = Candidatura::findOrFail($request->id_candidatura);
-          $candidatura_up->fill($dados); 
-          if($candidatura_up->save()){
-            return redirect()->back()->with('success', 'Evolução registrada com sucesso!');
-          }else{
-            return redirect()->back()->with('error', 'Não foi possível atualizar as informações, tente novamente mais tarde!');
-          }
-    }
-
-    public function dados_candidato_vaga(Request $request){
-        
-        $dados = $request->all();
-       // dd($request->id_candidato);
-        $candidato = Candidato::findOrFail($request->id_candidato);
-       
-        $candidato->fill($dados); 
-          if($candidato->save()){
-            return redirect()->back()->with('success', 'Dados do Candidato alterados com sucesso!');
-          }else{
-            return redirect()->back()->with('error', 'Não foi possível atualizar os dados do candidato!');
-          }
-    }
-
-
-    
-
-    
->>>>>>> 3a719d2fe0be1dc1cd524cf3c07d2ce278755ec6
 }
