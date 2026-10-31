@@ -738,21 +738,6 @@ export default function Home() {
                             </a>
                         </div>
                     </Reveal>
-
-                    {/* CTA */}
-                    <div className="mt-12 border-t border-off/15 pt-8">
-                        <p className="font-display text-2xl text-amarelo md:text-3xl">
-                            Uma atuação próxima. Uma visão estratégica.
-                        </p>
-                        <div className="mt-6 flex flex-wrap gap-4">
-                            <a
-                                href="https://www.linkedin.com/in/julianan-costa/"
-                                className="btn-primary"
-                            >
-                                Converse com a Juliana <ArrowRight size={18} />
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </section>
 
