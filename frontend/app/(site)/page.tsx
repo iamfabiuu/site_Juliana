@@ -215,10 +215,10 @@ export default function Home() {
                                 <ArrowRight size={18} />
                             </a>
                             <a
-                                href="#solucoes"
+                                href="#metodo"
                                 className="btn-ghost whitespace-nowrap !leading-none"
                             >
-                                Conhecer soluções
+                                Conhecer método
                             </a>
                         </div>
                     </Reveal>
