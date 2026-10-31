@@ -66,7 +66,7 @@ export default function CandidaturaForm({
         setEnviando(true);
 
         try {
-            await enviarCandidatura(data);
+            await enviarCandidatura(slug, data);
             setEnviado(true);
         } catch (err) {
             const { errors } = err as ErroApi;

@@ -38,13 +38,19 @@ const str = (x: unknown): string => {
     if (typeof x === "number" || typeof x === "boolean") return String(x);
     if (typeof x === "object") {
         const o = x as Record<string, unknown>;
-        return str(o.nome ?? o.name ?? o.titulo ?? o.label ?? o.descricao ?? "");
+        return str(
+            o.nome ?? o.name ?? o.titulo ?? o.label ?? o.descricao ?? "",
+        );
     }
     return "";
 };
 
 const toList = (x: unknown): string[] => {
-    if (Array.isArray(x)) return x.map(str).map((s) => s.trim()).filter(Boolean);
+    if (Array.isArray(x))
+        return x
+            .map(str)
+            .map((s) => s.trim())
+            .filter(Boolean);
     if (typeof x === "string") {
         const li = [...x.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)].map((m) =>
             m[1].replace(/<[^>]*>/g, "").trim(),
@@ -75,7 +81,9 @@ export function normalizeVaga(raw: any): Vaga {
     const descricao = str(r.descricao ?? r.description ?? r.conteudo);
     const cidade = str(r.cidade ?? r.city) || undefined;
     const uf = str(r.uf ?? r.estado ?? r.state) || undefined;
-    const senioridade = humanize(str(r.senioridade ?? r.nivel ?? r.seniority ?? r.level));
+    const senioridade = humanize(
+        str(r.senioridade ?? r.nivel ?? r.seniority ?? r.level),
+    );
     const id = Number(r.id ?? raw?.id ?? parseInt(str(r.slug), 10));
 
     return {
@@ -83,7 +91,8 @@ export function normalizeVaga(raw: any): Vaga {
         slug: str(r.slug),
         titulo: str(r.titulo ?? r.title ?? r.cargo),
         descricao,
-        descricaoHtml: str(r.descricao_html) || (temHtml(descricao) ? descricao : ""),
+        descricaoHtml:
+            str(r.descricao_html) || (temHtml(descricao) ? descricao : ""),
         area: humanize(str(r.area ?? r.departamento ?? r.categoria)),
         local:
             str(r.local ?? r.localizacao ?? r.location) ||
@@ -91,12 +100,16 @@ export function normalizeVaga(raw: any): Vaga {
             "Recife/PE",
         cidade,
         uf,
-        modelo: humanize(str(r.modelo ?? r.modalidade ?? r.work_model)) || "Presencial",
+        modelo:
+            humanize(str(r.modelo ?? r.modalidade ?? r.work_model)) ||
+            "Presencial",
         tipo: str(r.tipo ?? r.tipo_contrato ?? r.contract_type),
         senioridade,
         nivel: str(r.nivel) || senioridade || undefined,
         resumo: str(r.resumo ?? r.summary ?? r.chamada),
-        responsabilidades: toList(r.responsabilidades ?? r.atividades ?? r.responsibilities),
+        responsabilidades: toList(
+            r.responsabilidades ?? r.atividades ?? r.responsibilities,
+        ),
         requisitos: toList(r.requisitos ?? r.habilidades ?? r.requirements),
         diferenciais: toList(r.diferenciais ?? r.nice_to_have),
         beneficios: toList(r.beneficios ?? r.benefits),
@@ -153,7 +166,12 @@ const vazio = (): Paginado<Vaga> => ({
 const fallbackLista = (motivo: unknown): Paginado<Vaga> => {
     console.error("[getVagas] fallback:", motivo);
     return IS_DEV
-        ? { data: vagasMock, current_page: 1, last_page: 1, total: vagasMock.length }
+        ? {
+              data: vagasMock,
+              current_page: 1,
+              last_page: 1,
+              total: vagasMock.length,
+          }
         : vazio();
 };
 
@@ -212,19 +230,29 @@ export async function getVaga(slug: string): Promise<Vaga | null> {
     }
 }
 
-export async function enviarCandidatura(form: FormData) {
-    if (!API) throw new Error("API não configurada");
+export async function enviarCandidatura(slug: string, data: FormData) {
+    if (!API) throw new Error("NEXT_PUBLIC_API_URL não definida");
 
-    const res = await fetch(`${API}/candidaturas`, {
+    const id = parseInt(slug, 10); // "49-assistente-de-vendas" → 49
+    if (Number.isNaN(id)) throw new Error(`Slug inválido: ${slug}`);
+
+    const url = `${API}/vagas/${id}/candidaturas`;
+    const res = await fetch(url, {
         method: "POST",
-        body: form,
+        body: data,
         headers: { Accept: "application/json" },
     });
-    const data = await res.json().catch(() => ({}));
 
-    if (!res.ok)
-        throw Object.assign(new Error(data?.message ?? "Erro ao enviar"), {
-            errors: data?.errors,
-        });
-    return data;
+    if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        if (IS_DEV) console.error("[enviarCandidatura]", res.status, url, json);
+        const err = new Error(
+            json?.message ?? `HTTP ${res.status}`,
+        ) as Error & {
+            errors?: Record<string, string[]>;
+        };
+        err.errors = json?.errors;
+        throw err;
+    }
+    return res.json().catch(() => ({}));
 }
