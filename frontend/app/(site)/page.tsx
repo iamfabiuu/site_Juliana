@@ -716,7 +716,7 @@ export default function Home() {
                     {/* SOLUÇÕES */}
                     <Reveal delay={0.25}>
                         <div className="mt-6 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            {solucoes.map(({ icon: Icon, t, s, d }) => (
+                            {solucoes.map(({ icon: Icon, t, d }) => (
                                 <div
                                     key={t}
                                     className="group flex h-full flex-col rounded-xl2 border border-off/15 bg-off/[0.06] p-8 transition-colors duration-500 hover:border-amarelo/50"
@@ -729,11 +729,6 @@ export default function Home() {
                                     <h3 className="mt-6 font-display text-2xl leading-tight text-off">
                                         {t}
                                     </h3>
-                                    {s && (
-                                        <p className="mt-2 font-display text-sm text-off/60">
-                                            {s}
-                                        </p>
-                                    )}
                                     <p className="mt-4 text-base leading-relaxed text-off/70">
                                         {d}
                                     </p>
