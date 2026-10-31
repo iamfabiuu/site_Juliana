@@ -4,12 +4,12 @@ import Link from "next/link";
 import CreditoLumminin from "./CreditoLumminin";
 
 const NAV = [
-    ["Soluções", "#solucoes"],
+    //["Soluções", "#solucoes"],
     ["Como atuamos", "#como-atuamos"],
     ["Método Costa DH", "#metodo"],
     ["Sobre a Juliana", "#juliana"],
     ["Conteúdos", "#manifesto"],
-    ["Contato", "#contato"],
+    //["Contato", "#contato"],
 ] as const;
 
 export default function Footer() {
@@ -42,7 +42,7 @@ export default function Footer() {
                     </p>
 
                     <a
-                        href="https://wa.me/5581999999999"
+                        href="https://www.linkedin.com/in/julianan-costa/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-5 inline-block text-sm font-semibold text-amarelo hover:underline"

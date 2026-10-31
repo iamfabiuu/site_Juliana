@@ -110,7 +110,7 @@ export default function Parceiros() {
                             Sua empresa pode ser a próxima nessa lista.
                         </p>
                         <a
-                            href="#contato"
+                            href="https://www.linkedin.com/in/julianan-costa/"
                             className="text-sm font-semibold text-terracota underline-offset-4 transition-colors hover:underline"
                         >
                             Vamos conversar →

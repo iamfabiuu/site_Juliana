@@ -233,10 +233,6 @@ export default function Home() {
                                 priority
                                 className="object-cover object-top"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-azul via-azul/25 to-transparent" />
-                            <p className="absolute bottom-8 left-8 right-8 font-display text-2xl leading-snug text-off">
-                                “Pessoas no centro: Nossa estratégia.”
-                            </p>
                         </div>
                     </Reveal>
                 </div>
@@ -294,7 +290,7 @@ export default function Home() {
                                 empresa?
                             </p>
                             <a
-                                href="#contato"
+                                href="https://www.linkedin.com/in/julianan-costa/"
                                 className="group shrink-0 inline-flex items-center gap-2 rounded-full bg-off px-7 py-3.5 font-semibold text-terracota transition-all duration-300 hover:scale-[1.03] hover:bg-azul hover:text-off"
                             >
                                 Quero conversar
@@ -754,14 +750,6 @@ export default function Home() {
                                 className="btn-primary"
                             >
                                 Converse com a Juliana <ArrowRight size={18} />
-                            </a>
-                            <a
-                                href="https://www.linkedin.com/in/julianan-costa/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 rounded-full border border-off/25 px-7 py-3 text-sm font-semibold transition-colors hover:border-amarelo hover:text-amarelo"
-                            >
-                                LinkedIn
                             </a>
                         </div>
                     </div>
