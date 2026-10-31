@@ -797,14 +797,14 @@ export default function Home() {
                     <div className="mt-12 max-w-[60rem] space-y-10">
                         {[
                             {
-                                q: "A leitura de cultura mudou a forma como conduzimos as reuniões de liderança. Saímos do achismo e passamos a decidir com clareza sobre pessoas.",
-                                a: "Oswaldo",
-                                tag: "Cultura & Clima",
+                                q: "Juliana sempre foi uma grande parceira no crescimento da SMS Eficaz. É sempre um enorme prazer contar com o seu apoio! Sua contribuição vai muito além dos processos seletivos e contratações. Ela também nos ajudou no desenvolvimento do PDI dos nossos líderes, agregando ainda mais valor à nossa equipe.",
+                                a: "Diego Oliveira",
+                                tag: "Diretor SMS Eficaz",
                             },
                             {
-                                q: "Nossos coordenadores promovidos internamente finalmente se sentem líderes. A trilha deu método a quem só tinha boa intenção.",
-                                a: "Diego",
-                                tag: "Liderança & Gestão",
+                                q: "O trabalho consultivo e operacional da Juliana foi fundamental na contratação de pessoas importantíssimas para nosso time. Principalmente no nível gerencial, suas escolhas de perfil e competência nos trouxeram pessoas extremamente adequadas à nossa organização. Indico fortemente.",
+                                a: "Oswaldo Redig",
+                                tag: "Diretor Geral da Tron Soluções Tecnológicas",
                             },
                         ].map((t, i) => (
                             <Reveal key={t.a} delay={i * 0.1}>
