@@ -7,11 +7,11 @@ import Image from "next/image";
 const LOGIN_URL = "https://www.api.costadh.com.br/login";
 
 const nav = [
-    { label: "Soluções", href: "#solucoes" },
+    //{ label: "Soluções", href: "#solucoes" },
     { label: "Método", href: "#metodo" },
     { label: "Resultados", href: "#resultados" },
     { label: "Juliana", href: "#juliana" },
-    { label: "Termômetro", href: "#termometro" },
+    //{ label: "Termômetro", href: "#termometro" },
     { label: "Carreiras", href: "/vagas" },
 ];
 
