@@ -252,8 +252,7 @@ export default function Home() {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-azul via-azul/25 to-transparent" />
                             <p className="absolute bottom-8 left-8 right-8 font-display text-2xl leading-snug text-off">
-                                “Pessoas no centro. Estratégia que desenvolve
-                                pessoas.”
+                                “Pessoas no centro. Nossa estratégia.”
                             </p>
                         </div>
                     </Reveal>
