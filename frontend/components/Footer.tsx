@@ -8,7 +8,7 @@ const NAV = [
     ["Como atuamos", "#como-atuamos"],
     ["Método Costa DH", "#metodo"],
     ["Sobre a Juliana", "#juliana"],
-    ["Conteúdos", "#manifesto"],
+    ["Manisfesto", "#manifesto"],
     //["Contato", "#contato"],
 ] as const;
 
