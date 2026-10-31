@@ -172,7 +172,7 @@ export default function Home() {
                     />
                 </div>
 
-                <div className="container-site relative grid gap-14 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-16 lg:pr-20 xl:pr-24">
+                <div className="container-site relative grid gap-14 lg:grid-cols-[1.05fr_.95fr] lg:items-stretch lg:gap-16 lg:pr-20 xl:pr-24">
                     <Reveal>
                         <span className="eyebrow">
                             Pessoas · Liderança · Negócio
@@ -221,21 +221,21 @@ export default function Home() {
                                 Conhecer soluções
                             </a>
                         </div>
-                        </Reveal>
+                    </Reveal>
 
                     <Reveal delay={0.15}>
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-xl2 bg-azul lg:aspect-[3/4]">
+                        <div className="relative aspect-[4/5] h-full overflow-hidden rounded-xl2 bg-azul lg:aspect-auto">
                             <Image
-                                src="/pexels-mikhail-nilov-8297442.jpg"
+                                src="/hero03.jpg"
                                 alt="Consultoria em gestão de pessoas — Costa DH"
                                 fill
                                 sizes="(max-width: 1024px) 100vw, 45vw"
                                 priority
-                                className="object-cover"
+                                className="object-cover object-top"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-azul via-azul/25 to-transparent" />
                             <p className="absolute bottom-8 left-8 right-8 font-display text-2xl leading-snug text-off">
-                                “Pessoas no centro. Nossa estratégia.”
+                                “Pessoas no centro: Nossa estratégia.”
                             </p>
                         </div>
                     </Reveal>
@@ -625,7 +625,7 @@ export default function Home() {
                         <Reveal>
                             <div className="relative aspect-[4/5] overflow-hidden rounded-xl2 bg-azul/40">
                                 <Image
-                                    src="/Juliana_Costa.png"
+                                    src="/Gemini_Generated_Image_qeqssjqeqssjqeqs.jpg"
                                     alt="Juliana Costa, psicóloga e estrategista em desenvolvimento humano"
                                     fill
                                     className="object-cover"
@@ -771,30 +771,30 @@ export default function Home() {
             {/* DEPOIMENTOS */}
             <section
                 id="depoimentos"
-                className="section relative overflow-hidden bg-verde text-off"
+                className="section relative overflow-hidden bg-white"
             >
+                {/* padronagem lateral (mesma linguagem do Manifesto) */}
                 <div
-                    className="pointer-events-none absolute inset-0 opacity-[0.05]"
-                    style={{
-                        backgroundImage:
-                            "url('/CostaDH_Modulos-Intercalados.svg.svg')",
-                        backgroundSize: "400px",
-                    }}
-                />
+                    className="pointer-events-none absolute left-0 top-0 hidden h-full w-[220px] select-none lg:block xl:w-[300px]"
+                    aria-hidden
+                >
+                    <Image
+                        src="/Hero.svg"
+                        alt=""
+                        fill
+                        className="-scale-x-100 object-cover object-right-top"
+                    />
+                </div>
 
-                <div className="container-site relative">
+                <div className="container-site relative lg:pl-[260px] xl:pl-[340px]">
                     <Reveal>
-                        <div className="max-w-2xl">
-                            <span className="eyebrow !text-amarelo">
-                                Depoimentos
-                            </span>
-                            <h2 className="h2 mt-4 text-off">
-                                O resultado aparece na rotina.
-                            </h2>
-                        </div>
+                        <span className="eyebrow">Depoimentos</span>
+                        <h2 className="h2 mt-4 max-w-3xl">
+                            O resultado aparece na rotina.
+                        </h2>
                     </Reveal>
 
-                    <div className="mt-16 grid gap-6 lg:grid-cols-2">
+                    <div className="mt-12 max-w-[60rem] space-y-10">
                         {[
                             {
                                 q: "A leitura de cultura mudou a forma como conduzimos as reuniões de liderança. Saímos do achismo e passamos a decidir com clareza sobre pessoas.",
@@ -808,20 +808,17 @@ export default function Home() {
                             },
                         ].map((t, i) => (
                             <Reveal key={t.a} delay={i * 0.1}>
-                                <blockquote className="group flex h-full flex-col rounded-xl2 border border-off/15 bg-off/[0.06] p-9 transition-colors duration-500 hover:border-amarelo/40 hover:bg-off/[0.1]">
-                                    <span className="font-display text-5xl leading-none text-amarelo/40 transition-colors duration-500 group-hover:text-amarelo">
-                                        “
-                                    </span>
-                                    <p className="mt-4 flex-1 text-lg leading-relaxed text-off/85">
-                                        {t.q}
+                                <blockquote className="border-l-2 border-terracota/40 pl-6 transition-colors duration-500 hover:border-terracota">
+                                    <p className="text-lg leading-relaxed text-azul/75">
+                                        “{t.q}”
                                     </p>
-                                    <footer className="mt-8 border-t border-off/15 pt-5">
-                                        <p className="text-sm font-semibold text-off">
+                                    <footer className="mt-4 flex flex-wrap items-center gap-3">
+                                        <span className="text-sm font-semibold text-azul">
                                             {t.a}
-                                        </p>
-                                        <p className="mt-4 inline-block rounded-full bg-amarelo/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-amarelo">
+                                        </span>
+                                        <span className="rounded-full bg-terracota/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-terracota">
                                             {t.tag}
-                                        </p>
+                                        </span>
                                     </footer>
                                 </blockquote>
                             </Reveal>
@@ -829,7 +826,6 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-
             {/* <Termometro /> */}
         </>
     );
