@@ -97,7 +97,12 @@ export default function Header() {
                     >
                         <LogIn className="h-4 w-4" /> Login
                     </a>
-                    <a href="#contato" className={linkClass}>
+                    <a
+                        href="https://www.linkedin.com/in/julianan-costa/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={linkClass}
+                    >
                         Agendar diagnóstico
                     </a>
                 </div>

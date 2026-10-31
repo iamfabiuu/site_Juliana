@@ -206,7 +206,9 @@ export default function Home() {
 
                         <div className="mt-9 flex flex-wrap items-center gap-4">
                             <a
-                                href="#contato"
+                                href="https://www.linkedin.com/in/julianan-costa/"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="btn-primary whitespace-nowrap !leading-none"
                             >
                                 Quero conversar sobre meu desafio{" "}
@@ -219,26 +221,7 @@ export default function Home() {
                                 Conhecer soluções
                             </a>
                         </div>
-
-                        <div className="mt-10 grid max-w-[34rem] grid-cols-1 gap-x-8 gap-y-3 text-sm font-medium text-verde sm:grid-cols-2">
-                            {[
-                                "20+ anos de experiência em Psicologia",
-                                "Consultoria sob medida",
-                                "Atuação orientada a resultados",
-                            ].map((c) => (
-                                <span
-                                    key={c}
-                                    className="flex items-start gap-2"
-                                >
-                                    <Check
-                                        size={16}
-                                        className="mt-[3px] shrink-0 text-terracota"
-                                    />
-                                    {c}
-                                </span>
-                            ))}
-                        </div>
-                    </Reveal>
+                        </Reveal>
 
                     <Reveal delay={0.15}>
                         <div className="relative aspect-[4/5] overflow-hidden rounded-xl2 bg-azul lg:aspect-[3/4]">
@@ -518,7 +501,10 @@ export default function Home() {
                                 Não entregamos apenas uma recomendação. Apoiamos
                                 a empresa a transformar a decisão em prática.
                             </p>
-                            <a href="#contato" className="btn-ghost shrink-0">
+                            <a
+                                href="https://www.linkedin.com/in/julianan-costa/"
+                                className="btn-ghost shrink-0"
+                            >
                                 Quero entender a experiência{" "}
                                 <ArrowRight size={18} />
                             </a>
@@ -736,7 +722,7 @@ export default function Home() {
 
                             {/* CARD CTA */}
                             <a
-                                href="#contato"
+                                href="https://www.linkedin.com/in/julianan-costa/"
                                 className="group flex h-full flex-col justify-center rounded-xl2 bg-azul p-8 transition-transform duration-500 hover:-translate-y-1"
                             >
                                 <h3 className="font-display text-2xl leading-tight text-off">
@@ -763,7 +749,10 @@ export default function Home() {
                             Uma atuação próxima. Uma visão estratégica.
                         </p>
                         <div className="mt-6 flex flex-wrap gap-4">
-                            <a href="#contato" className="btn-primary">
+                            <a
+                                href="https://www.linkedin.com/in/julianan-costa/"
+                                className="btn-primary"
+                            >
                                 Converse com a Juliana <ArrowRight size={18} />
                             </a>
                             <a
