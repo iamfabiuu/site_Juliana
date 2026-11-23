@@ -8,6 +8,7 @@ import {
     Briefcase,
     GraduationCap,
     CalendarDays,
+    type LucideIcon,
 } from "lucide-react";
 import { getVagas } from "@/lib/vagas";
 import { loadVaga, parseSecoes, type Secao } from "@/lib/normalizeVaga";
@@ -192,7 +193,8 @@ export default async function VagaPage({
                         <div id="candidatura" className="scroll-mt-28">
                             <CandidaturaForm
                                 vaga={v.titulo}
-                                slug={v.slug || slug}
+                                slug={slug}
+                                vagaId={v.id}
                             />
                         </div>
                     </article>

@@ -31,6 +31,11 @@ export type Paginado<T> = {
     total: number;
 };
 
+export type ErroApi = Error & {
+    status?: number;
+    errors?: Record<string, string[]>;
+};
+
 /* ---------- Helpers ---------- */
 const str = (x: unknown): string => {
     if (x === null || x === undefined) return "";
@@ -68,6 +73,7 @@ const temHtml = (s: string) => /<[a-z][\s\S]*>/i.test(s);
 
 const ROTULOS: Record<string, string> = {
     contabil: "Contábil",
+    informatica: "Informática",
     "recursos-humanos": "Recursos Humanos",
 };
 
@@ -84,10 +90,10 @@ export function normalizeVaga(raw: any): Vaga {
     const senioridade = humanize(
         str(r.senioridade ?? r.nivel ?? r.seniority ?? r.level),
     );
-    const id = Number(r.id ?? raw?.id ?? parseInt(str(r.slug), 10));
+    const id = Number(r.id ?? raw?.id);
 
     return {
-        id: Number.isFinite(id) ? id : 0,
+        id: Number.isInteger(id) && id > 0 ? id : 0,
         slug: str(r.slug),
         titulo: str(r.titulo ?? r.title ?? r.cargo),
         descricao,
@@ -105,7 +111,7 @@ export function normalizeVaga(raw: any): Vaga {
             "Presencial",
         tipo: str(r.tipo ?? r.tipo_contrato ?? r.contract_type),
         senioridade,
-        nivel: str(r.nivel) || senioridade || undefined,
+        nivel: senioridade || undefined,
         resumo: str(r.resumo ?? r.summary ?? r.chamada),
         responsabilidades: toList(
             r.responsabilidades ?? r.atividades ?? r.responsibilities,
@@ -121,10 +127,15 @@ export function normalizeVaga(raw: any): Vaga {
 const lista = (itens: string[]) =>
     `<ul>${itens.map((i) => `<li>${i}</li>`).join("")}</ul>`;
 
+const RESP_MOCK = [
+    "Supervisionar a equipe e o atendimento.",
+    "Acompanhar metas e indicadores de vendas.",
+];
+
 export const vagasMock: Vaga[] = [
     {
         id: 9999,
-        slug: "9999-supervisor-de-loja-mock",
+        slug: "supervisor-de-loja-mock",
         titulo: "Supervisor de Loja (mock)",
         area: "Comercial",
         local: "Recife/PE",
@@ -136,10 +147,7 @@ export const vagasMock: Vaga[] = [
         nivel: "Pleno",
         resumo: "Vaga de exemplo exibida apenas quando a API está indisponível.",
         descricaoHtml: "",
-        responsabilidades: [
-            "Supervisionar a equipe e o atendimento.",
-            "Acompanhar metas e indicadores de vendas.",
-        ],
+        responsabilidades: RESP_MOCK,
         requisitos: [],
         diferenciais: [],
         beneficios: [],
@@ -147,10 +155,7 @@ export const vagasMock: Vaga[] = [
         descricao: [
             "<p>Vaga de exemplo exibida apenas quando a API está indisponível.</p>",
             "<h3>Responsabilidades</h3>",
-            lista([
-                "Supervisionar a equipe e o atendimento.",
-                "Acompanhar metas e indicadores de vendas.",
-            ]),
+            lista(RESP_MOCK),
         ].join(""),
     },
 ];
@@ -175,9 +180,12 @@ const fallbackLista = (motivo: unknown): Paginado<Vaga> => {
         : vazio();
 };
 
-const fallbackVaga = (id: number, motivo: unknown): Vaga | null => {
+const fallbackVaga = (slug: string, motivo: unknown): Vaga | null => {
     console.error("[getVaga] fallback:", motivo);
-    return IS_DEV ? (vagasMock.find((v) => v.id === id) ?? null) : null;
+    if (!IS_DEV) return null;
+    return (
+        vagasMock.find((v) => v.slug === slug || String(v.id) === slug) ?? null
+    );
 };
 
 /* ---------- API ---------- */
@@ -207,13 +215,12 @@ export async function getVagas(page = 1): Promise<Paginado<Vaga>> {
     }
 }
 
+/** Aceita slug ("gerente-de-unidade-agreste") ou id legado ("50") */
 export async function getVaga(slug: string): Promise<Vaga | null> {
-    const id = parseInt(slug, 10); // "48-supervisor-de-loja" → 48
-    if (Number.isNaN(id)) return null;
+    if (!slug) return null;
+    if (!API) return fallbackVaga(slug, "NEXT_PUBLIC_API_URL não definida");
 
-    if (!API) return fallbackVaga(id, "NEXT_PUBLIC_API_URL não definida");
-
-    const url = `${API}/vagas/${id}`;
+    const url = `${API}/vagas/${encodeURIComponent(slug)}`;
     try {
         const res = await fetch(url, {
             headers: { Accept: "application/json" },
@@ -226,33 +233,35 @@ export async function getVaga(slug: string): Promise<Vaga | null> {
         const vaga = normalizeVaga(json?.data ?? json);
         return vaga.titulo ? vaga : null;
     } catch (e) {
-        return fallbackVaga(id, e);
+        return fallbackVaga(slug, e);
     }
 }
 
-export async function enviarCandidatura(slug: string, data: FormData) {
+/** vagaId = id numérico da vaga (vaga.id), não o slug */
+export async function enviarCandidatura(vagaId: number, data: FormData) {
     if (!API) throw new Error("NEXT_PUBLIC_API_URL não definida");
+    if (!Number.isInteger(vagaId) || vagaId <= 0)
+        throw new Error(`ID de vaga inválido: ${vagaId}`);
 
-    const id = parseInt(slug, 10); // "49-assistente-de-vendas" → 49
-    if (Number.isNaN(id)) throw new Error(`Slug inválido: ${slug}`);
-
-    const url = `${API}/vagas/${id}/candidaturas`;
+    const url = `${API}/vagas/${vagaId}/candidaturas`;
     const res = await fetch(url, {
         method: "POST",
         body: data,
         headers: { Accept: "application/json" },
     });
 
+    const json = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-        const json = await res.json().catch(() => ({}));
         if (IS_DEV) console.error("[enviarCandidatura]", res.status, url, json);
-        const err = new Error(
-            json?.message ?? `HTTP ${res.status}`,
-        ) as Error & {
-            errors?: Record<string, string[]>;
-        };
+        const msg =
+            res.status === 429
+                ? "Muitas tentativas. Aguarde um minuto e tente novamente."
+                : (json?.message ?? `HTTP ${res.status}`);
+        const err = new Error(msg) as ErroApi;
+        err.status = res.status;
         err.errors = json?.errors;
         throw err;
     }
-    return res.json().catch(() => ({}));
+    return json;
 }

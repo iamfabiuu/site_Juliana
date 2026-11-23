@@ -44,16 +44,18 @@ type ErroApi = Error & { errors?: Record<string, string[]> };
 export default function CandidaturaForm({
     vaga,
     slug,
+    vagaId,
 }: {
     vaga: string;
     slug: string;
+    vagaId: number;
 }) {
     const [arquivo, setArquivo] = useState("");
     const [erro, setErro] = useState("");
     const [enviado, setEnviado] = useState(false);
     const [enviando, setEnviando] = useState(false);
 
-    async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function onSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
         if (enviando) return;
 
@@ -61,12 +63,13 @@ export default function CandidaturaForm({
         const data = new FormData(e.currentTarget);
         data.set("vaga", vaga);
         data.set("slug", slug);
+        data.set("vagaId", String(vagaId));
 
         setErro("");
         setEnviando(true);
 
         try {
-            await enviarCandidatura(slug, data);
+            await enviarCandidatura(vagaId, data);
             setEnviado(true);
         } catch (err) {
             const { errors } = err as ErroApi;
