@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { getVagas } from "@/lib/vagas";
 import { loadVaga, parseSecoes, type Secao } from "@/lib/normalizeVaga";
+import { formatarDescricao } from "@/lib/formatarDescricao";
 import CandidaturaForm from "./CandidaturaForm";
 
 export const revalidate = 60;
@@ -19,12 +20,11 @@ export const revalidate = 60;
 /* ---------- Next ---------- */
 
 export const generateStaticParams = async () => {
-    const res: any = await getVagas();
-    const lista = Array.isArray(res) ? res : (res?.data ?? []);
-    return lista
-        .map((v: any) => v?.slug ?? v?.attributes?.slug)
-        .filter(Boolean)
-        .map((slug: string) => ({ slug }));
+    const res = await getVagas();
+    return res.data
+        .map((v) => v.slug)
+        .filter((slug): slug is string => Boolean(slug))
+        .map((slug) => ({ slug }));
 };
 
 export async function generateMetadata({
@@ -50,34 +50,65 @@ export async function generateMetadata({
     };
 }
 
+/* ---------- Helpers ---------- */
+
+const CHIPS = ["soft skills", "hard skills", "competências"];
+
+function montarConteudo(html: string) {
+    const parsed = parseSecoes(html);
+    if (parsed.secoes.length) return parsed;
+
+    // Fallback: descrição veio como bloco único
+    const { intro, blocos } = formatarDescricao(html);
+    return { intro, secoes: blocos as Secao[] };
+}
+
 /* ---------- UI ---------- */
 
-const Bloco = ({ titulo, itens }: { titulo: string; itens: string[] }) =>
-    itens.length ? (
+const Bloco = ({ titulo, itens }: Secao) => {
+    if (!itens?.length) return null;
+    const chips = CHIPS.includes(titulo.toLowerCase());
+
+    return (
         <section className="mt-12">
             <h2 className="font-display text-2xl text-azul">{titulo}</h2>
-            <ul className="mt-5 space-y-3">
-                {itens.map((i, idx) => (
-                    <li
-                        key={`${idx}-${i}`}
-                        className="flex gap-3 leading-relaxed text-azul/75"
-                    >
-                        <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-terracota" />
-                        {i}
-                    </li>
-                ))}
-            </ul>
+
+            {chips ? (
+                <ul className="mt-5 flex flex-wrap gap-2">
+                    {itens.map((i, idx) => (
+                        <li
+                            key={`${idx}-${i}`}
+                            className="rounded-full bg-amarelo/20 px-3.5 py-1.5 text-sm font-medium text-azul"
+                        >
+                            {i}
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <ul className="mt-5 space-y-3">
+                    {itens.map((i, idx) => (
+                        <li
+                            key={`${idx}-${i}`}
+                            className="flex gap-3 leading-relaxed text-azul/75"
+                        >
+                            <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-terracota" />
+                            {i}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </section>
-    ) : null;
+    );
+};
 
 const Meta = ({
     icon: Icon,
     label,
     value,
 }: {
-    icon: any;
+    icon: LucideIcon;
     label: string;
-    value: string;
+    value?: string;
 }) =>
     value ? (
         <div className="flex items-start gap-3">
@@ -91,6 +122,8 @@ const Meta = ({
         </div>
     ) : null;
 
+/* ---------- Page ---------- */
+
 export default async function VagaPage({
     params,
 }: {
@@ -100,16 +133,15 @@ export default async function VagaPage({
     const v = await loadVaga(slug);
     if (!v?.titulo) notFound();
 
-    const { intro, secoes } = parseSecoes(v.descricaoHtml || "");
+    const { intro, secoes } = montarConteudo(v.descricaoHtml || "");
 
-    // Evita duplicar blocos que já vieram dentro da descrição
-    const titulosDescricao = new Set(secoes.map((s) => s.titulo.toLowerCase()));
+    const titulos = new Set(secoes.map((s) => s.titulo.toLowerCase()));
     const blocosFixos: Secao[] = [
         { titulo: "O que você vai fazer", itens: v.responsabilidades },
         { titulo: "Habilidades necessárias", itens: v.requisitos },
         { titulo: "Diferenciais", itens: v.diferenciais },
         { titulo: "Benefícios", itens: v.beneficios },
-    ].filter((b) => !titulosDescricao.has(b.titulo.toLowerCase()));
+    ].filter((b) => b.itens?.length && !titulos.has(b.titulo.toLowerCase()));
 
     const data = v.publicadoEm
         ? new Date(v.publicadoEm).toLocaleDateString("pt-BR", {
@@ -157,7 +189,7 @@ export default async function VagaPage({
 
                 <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_340px]">
                     {/* CONTEÚDO */}
-                    <article className="min-w-0">
+                    <article className="min-w-0 max-w-[68ch]">
                         {v.area && (
                             <span className="block w-fit rounded-full bg-amarelo/20 px-3 py-1 text-xs font-semibold text-azul">
                                 {v.area}
@@ -174,23 +206,11 @@ export default async function VagaPage({
                             </p>
                         )}
 
-                        {secoes.map((s) => (
-                            <Bloco
-                                key={s.titulo}
-                                titulo={s.titulo}
-                                itens={s.itens}
-                            />
+                        {[...secoes, ...blocosFixos].map((s) => (
+                            <Bloco key={s.titulo} {...s} />
                         ))}
 
-                        {blocosFixos.map((b) => (
-                            <Bloco
-                                key={b.titulo}
-                                titulo={b.titulo}
-                                itens={b.itens}
-                            />
-                        ))}
-
-                        <div id="candidatura" className="scroll-mt-28">
+                        <div id="candidatura" className="mt-16 scroll-mt-28">
                             <CandidaturaForm
                                 vaga={v.titulo}
                                 slug={slug}
