@@ -231,7 +231,7 @@ export default function Home() {
                                 fill
                                 sizes="(max-width: 1024px) 100vw, 45vw"
                                 priority
-                                className="object-cover object-top"
+                                className="object-cover object-[83%_top]"
                             />
                         </div>
                     </Reveal>
