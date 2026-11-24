@@ -1,43 +1,52 @@
-import { stripHtml } from "./normalizeVaga";
+import {
+    stripHtml,
+    limparItem,
+    capitalizar,
+    normalizarTitulo,
+    quebrarChips,
+    TITULOS_SECAO,
+    CHIPS,
+} from "./normalizeVaga";
 
 export type Bloco = { titulo: string; itens: string[] };
 
-const TITULOS = [
-    "Responsabilidades",
-    "Atividades",
-    "Atribuições",
-    "Qualificações",
-    "Requisitos",
-    "Diferenciais",
-    "Soft skills",
-    "Hard skills",
-    "Benefícios",
-    "Competências",
-];
+/* Aceita "Atividades" e "ATIVIDADES", mas nunca "atividades" no meio da frase */
+const variantes = TITULOS_SECAO.flatMap((t) => [t, t.toUpperCase()]);
 
-const RE_TITULO = new RegExp(`\\b(${TITULOS.join("|")})\\s*:?\\s*`, "gi");
+const RE_TITULO = new RegExp(
+    `(?<=^|\\n|[.,;:!?|]\\s*)\\s*(${variantes.join("|")})\\s*:?\\s*(?=\\p{Lu}|\\n|$)`,
+    "gu",
+);
 
 const quebrarItens = (s: string) =>
     s
-        .split(/[,.;]\s+(?=\p{Lu})|\s*[•·]\s*/u)
-        .map((i) => i.replace(/[,.;]\s*$/, "").trim())
+        .split(/\n+|[,.;]\s+(?=\p{Lu})|\s*[•·]\s*/u)
+        .map(limparItem)
         .filter((i) => i.length > 2)
-        .map((i) => i[0].toUpperCase() + i.slice(1));
+        .map(capitalizar);
 
 export function formatarDescricao(raw: string) {
-    const texto = stripHtml(raw);
+    const texto = stripHtml(raw).replace(/\r/g, "").trim();
     const partes = texto.split(RE_TITULO);
 
-    const intro = partes[0].trim();
+    const intro = limparItem(partes[0] ?? "");
     const blocos: Bloco[] = [];
 
     for (let i = 1; i < partes.length; i += 2) {
-        const titulo = TITULOS.find(
-            (t) => t.toLowerCase() === partes[i].toLowerCase(),
-        )!;
-        const itens = quebrarItens(partes[i + 1] ?? "");
-        if (itens.length) blocos.push({ titulo, itens });
+        const titulo = normalizarTitulo(partes[i]);
+        const conteudo = partes[i + 1] ?? "";
+        const itens = CHIPS.has(titulo.toLowerCase())
+            ? quebrarChips(conteudo)
+            : quebrarItens(conteudo);
+        if (!itens.length) continue;
+
+        const existente = blocos.find((b) => b.titulo === titulo);
+        if (existente) existente.itens.push(...itens);
+        else blocos.push({ titulo, itens });
     }
 
-    return { intro, blocos };
+    return {
+        intro: intro ? `${intro}${/[.!?]$/.test(intro) ? "" : "."}` : "",
+        blocos,
+    };
 }

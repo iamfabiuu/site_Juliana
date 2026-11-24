@@ -3,7 +3,7 @@ const IS_DEV = process.env.NODE_ENV !== "production";
 
 /* ---------- Tipos ---------- */
 export type Vaga = {
-    id: number;
+    id: number | string;
     slug: string;
     titulo: string;
     descricao: string;
@@ -82,18 +82,29 @@ const humanize = (s: string) =>
     s.replace(/[-_]/g, " ").replace(/^\p{L}/u, (c) => c.toUpperCase());
 
 /* ---------- Normalização ---------- */
-export function normalizeVaga(raw: any): Vaga {
-    const r = raw?.attributes ?? raw ?? {};
+export function normalizeVaga(raw: unknown): Vaga {
+    const source =
+        raw !== null && typeof raw === "object"
+            ? (raw as Record<string, unknown>)
+            : {};
+    const attributes = source.attributes;
+    const r =
+        attributes !== null && typeof attributes === "object"
+            ? (attributes as Record<string, unknown>)
+            : source;
     const descricao = str(r.descricao ?? r.description ?? r.conteudo);
     const cidade = str(r.cidade ?? r.city) || undefined;
     const uf = str(r.uf ?? r.estado ?? r.state) || undefined;
     const senioridade = humanize(
         str(r.senioridade ?? r.nivel ?? r.seniority ?? r.level),
     );
-    const id = Number(r.id ?? raw?.id);
+    const id = r.id ?? source.id;
 
     return {
-        id: Number.isInteger(id) && id > 0 ? id : 0,
+        id:
+            typeof id === "number" && Number.isFinite(id) && id > 0
+                ? id
+                : str(id) || 0,
         slug: str(r.slug),
         titulo: str(r.titulo ?? r.title ?? r.cargo),
         descricao,
@@ -200,15 +211,23 @@ export async function getVagas(page = 1): Promise<Paginado<Vaga>> {
         });
         if (!res.ok) throw new Error(`HTTP ${res.status} em ${url}`);
 
-        const json = await res.json();
-        const itens: any[] = Array.isArray(json) ? json : (json?.data ?? []);
+        const json: unknown = await res.json();
+        const response =
+            json !== null && typeof json === "object" && !Array.isArray(json)
+                ? (json as Record<string, unknown>)
+                : {};
+        const itens: unknown[] = Array.isArray(json)
+            ? json
+            : Array.isArray(response.data)
+              ? response.data
+              : [];
         const data = itens.map(normalizeVaga).filter((v) => v.slug && v.titulo);
 
         return {
             data,
-            current_page: Number(json?.current_page) || page,
-            last_page: Number(json?.last_page) || 1,
-            total: Number(json?.total) || data.length,
+            current_page: Number(response.current_page) || page,
+            last_page: Number(response.last_page) || 1,
+            total: Number(response.total) || data.length,
         };
     } catch (e) {
         return fallbackLista(e);
@@ -229,8 +248,12 @@ export async function getVaga(slug: string): Promise<Vaga | null> {
         if (res.status === 404) return null;
         if (!res.ok) throw new Error(`HTTP ${res.status} em ${url}`);
 
-        const json = await res.json();
-        const vaga = normalizeVaga(json?.data ?? json);
+        const json: unknown = await res.json();
+        const response =
+            json !== null && typeof json === "object" && !Array.isArray(json)
+                ? (json as Record<string, unknown>)
+                : {};
+        const vaga = normalizeVaga(response.data ?? json);
         return vaga.titulo ? vaga : null;
     } catch (e) {
         return fallbackVaga(slug, e);
@@ -238,12 +261,13 @@ export async function getVaga(slug: string): Promise<Vaga | null> {
 }
 
 /** vagaId = id numérico da vaga (vaga.id), não o slug */
-export async function enviarCandidatura(vagaId: number, data: FormData) {
+export async function enviarCandidatura(id: number | string, data: FormData) {
     if (!API) throw new Error("NEXT_PUBLIC_API_URL não definida");
-    if (!Number.isInteger(vagaId) || vagaId <= 0)
-        throw new Error(`ID de vaga inválido: ${vagaId}`);
+    const numericId = typeof id === "number" ? id : Number(id);
+    if (!Number.isInteger(numericId) || numericId <= 0)
+        throw new Error(`ID de vaga inválido: ${id}`);
 
-    const url = `${API}/vagas/${vagaId}/candidaturas`;
+    const url = `${API}/vagas/${numericId}/candidaturas`;
     const res = await fetch(url, {
         method: "POST",
         body: data,

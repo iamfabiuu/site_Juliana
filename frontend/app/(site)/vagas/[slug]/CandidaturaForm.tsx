@@ -41,15 +41,13 @@ const input =
 
 type ErroApi = Error & { errors?: Record<string, string[]> };
 
-export default function CandidaturaForm({
-    vaga,
-    slug,
-    vagaId,
-}: {
+type Props = {
     vaga: string;
     slug: string;
-    vagaId: number;
-}) {
+    vagaId: number | string;
+};
+
+export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
     const [arquivo, setArquivo] = useState("");
     const [erro, setErro] = useState("");
     const [enviado, setEnviado] = useState(false);
