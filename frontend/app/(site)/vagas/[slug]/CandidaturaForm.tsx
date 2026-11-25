@@ -231,11 +231,11 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                     </div>
 
                     {/* LGPD */}
-                    <details className="rounded-xl border border-off/15 bg-off/5 p-5 text-sm text-off/70">
-                        <summary className="cursor-pointer font-semibold text-white/80 transition-colors hover:text-amarelo">
+                    <details className="rounded-xl border border-off/15 bg-off/5 p-5 text-sm text-white">
+                        <summary className="cursor-pointer font-semibold text-white transition-colors hover:text-amarelo">
                             Aviso de Privacidade no processo de Recrutamento
                         </summary>
-                        <div className="mt-3 space-y-3 leading-relaxed text-white/80">
+                        <div className="mt-3 space-y-3 leading-relaxed text-white">
                             <p>
                                 Na Costa Desenvolvimento Humano, acreditamos que
                                 cada processo seletivo começa pelo respeito às
@@ -251,7 +251,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 Dados Pessoais — LGPD (Lei nº 13.709/2018).
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-white/80">
+                            <h3 className="pt-2 font-semibold text-white">
                                 Como utilizamos seus dados?
                             </h3>
                             <p>
@@ -285,7 +285,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 </li>
                             </ul>
 
-                            <h3 className="pt-2 font-semibold text-white/80">
+                            <h3 className="pt-2 font-semibold text-white">
                                 Quem poderá acessar seus dados?
                             </h3>
                             <p>
@@ -295,12 +295,12 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 de sua candidatura, aos representantes da
                                 empresa contratante da oportunidade.
                             </p>
-                            <p className="font-medium text-white/80">
+                            <p className="font-medium text-white">
                                 A Costa DH não comercializa currículos ou dados
                                 pessoais de candidatos.
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-white/80">
+                            <h3 className="pt-2 font-semibold text-white">
                                 Por quanto tempo seus dados serão mantidos?
                             </h3>
                             <p>
@@ -312,7 +312,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 autorização para permanência na nossa base.
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-white/80">
+                            <h3 className="pt-2 font-semibold text-white">
                                 Seus direitos
                             </h3>
                             <p>
@@ -329,7 +329,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 oficiais da Costa DH.
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-white/80">
+                            <h3 className="pt-2 font-semibold text-white">
                                 Um processo seletivo com respeito às pessoas
                             </h3>
                             <p>
