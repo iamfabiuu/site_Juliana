@@ -233,60 +233,153 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                     {/* LGPD */}
                     <details className="rounded-xl border border-off/15 bg-off/5 p-5 text-sm text-off/70">
                         <summary className="cursor-pointer font-semibold text-off">
-                            Privacidade de Dados no processo de Recrutamento
+                            Aviso de Privacidade no processo de Recrutamento
                         </summary>
-                        <div className="mt-3 space-y-3 leading-relaxed">
-                            <p>Olá, tudo bem?</p>
+                        <div className="mt-3 space-y-3 leading-relaxed text-white/80">
                             <p>
-                                Aqui na Costa Desenvolvimento Humano (CDH)
-                                prezamos pela privacidade em todos os nossos
-                                processos e no nosso modelo de negócio. Temos
-                                como premissa inegociável a proteção de dados de
-                                ponta a ponta, de todas as pessoas e empresas
-                                que utilizam os nossos serviços. Agimos com
-                                visibilidade e transparência: qualquer que seja
-                                o uso das informações, aplicamos o que foi
-                                acordado com o titular dos dados.
+                                Na Costa Desenvolvimento Humano, acreditamos que
+                                cada processo seletivo começa pelo respeito às
+                                pessoas.
                             </p>
                             <p>
-                                O respeito pela privacidade da pessoa usuária
-                                dos nossos serviços será sempre um princípio
-                                primordial, seguido por todos os parceiros e
-                                colaboradores da CDH.
+                                Ao se candidatar a uma oportunidade conduzida
+                                por nossa consultoria, seus dados pessoais serão
+                                tratados exclusivamente para atividades
+                                relacionadas ao recrutamento e seleção, de forma
+                                responsável, transparente e segura, em
+                                conformidade com a Lei Geral de Proteção de
+                                Dados Pessoais — LGPD (Lei nº 13.709/2018).
+                            </p>
+
+                            <h3 className="pt-2 font-semibold text-off">
+                                Como utilizamos seus dados?
+                            </h3>
+                            <p>
+                                As informações fornecidas por você poderão ser
+                                utilizadas para:
+                            </p>
+                            <ul className="list-disc space-y-1.5 pl-5 marker:text-amarelo">
+                                <li>
+                                    analisar sua aderência aos requisitos da
+                                    oportunidade para a qual você se candidatou;
+                                </li>
+                                <li>
+                                    realizar contato e conduzir as etapas do
+                                    processo seletivo;
+                                </li>
+                                <li>
+                                    apresentar seu perfil profissional à empresa
+                                    contratante, quando houver aderência à
+                                    oportunidade;
+                                </li>
+                                <li>
+                                    realizar entrevistas, avaliações e demais
+                                    etapas previstas no processo;
+                                </li>
+                                <li>
+                                    manter seu currículo em nossa base de
+                                    profissionais para eventual contato sobre
+                                    futuras oportunidades compatíveis com seu
+                                    perfil, quando houver autorização para essa
+                                    finalidade.
+                                </li>
+                            </ul>
+
+                            <h3 className="pt-2 font-semibold text-off">
+                                Quem poderá acessar seus dados?
+                            </h3>
+                            <p>
+                                O acesso às suas informações será restrito às
+                                pessoas envolvidas na condução do processo
+                                seletivo e, quando necessário para a avaliação
+                                de sua candidatura, aos representantes da
+                                empresa contratante da oportunidade.
+                            </p>
+                            <p className="font-medium text-off/90">
+                                A Costa DH não comercializa currículos ou dados
+                                pessoais de candidatos.
+                            </p>
+
+                            <h3 className="pt-2 font-semibold text-off">
+                                Por quanto tempo seus dados serão mantidos?
+                            </h3>
+                            <p>
+                                Os dados relacionados ao processo seletivo serão
+                                mantidos no período necessário ao cumprimento
+                                das finalidades informadas. Após esse período,
+                                os dados poderão ser eliminados ou, quando
+                                aplicável, novamente solicitaremos sua
+                                autorização para permanência na nossa base.
+                            </p>
+
+                            <h3 className="pt-2 font-semibold text-off">
+                                Seus direitos
+                            </h3>
+                            <p>
+                                Na condição de titular dos dados, você poderá
+                                exercer os direitos previstos na LGPD, incluindo
+                                solicitar informações sobre o tratamento de seus
+                                dados, acesso, correção, atualização e, quando
+                                aplicável, eliminação ou revogação do
+                                consentimento.
                             </p>
                             <p>
-                                Protegemos os dados das pessoas candidatas desde
-                                a aplicação na vaga, durante todo o processo
-                                seletivo, ou enquanto estiverem em nosso banco
-                                de talentos para oportunidades futuras.
-                                Processamos suas informações para fazer a
-                                interface entre você e nossos clientes, ou para
-                                encontrar uma função adequada em outro momento.
-                                Suas informações serão descontinuadas após 1 ano
-                                — ou antes, caso você solicite, a qualquer
-                                momento.
+                                Para solicitações relacionadas aos seus dados
+                                pessoais, entre em contato conosco pelos canais
+                                oficiais da Costa DH.
+                            </p>
+
+                            <h3 className="pt-2 font-semibold text-off">
+                                Um processo seletivo com respeito às pessoas
+                            </h3>
+                            <p>
+                                Seu currículo representa sua trajetória
+                                profissional e confiamos que essa informação
+                                merece ser tratada com responsabilidade. Na
+                                Costa DH, buscamos conectar pessoas,
+                                oportunidades e organizações de forma ética,
+                                cuidadosa e transparente.
                             </p>
                             <p>
-                                Agradecemos pela confiança! — Costa
-                                Desenvolvimento Humano
+                                Ao prosseguir com sua candidatura, você declara
+                                que leu este aviso e está ciente de como seus
+                                dados pessoais serão tratados no processo
+                                seletivo.
                             </p>
                         </div>
                     </details>
 
-                    <label className="flex items-start gap-3 text-sm text-off/80">
-                        <input
-                            type="checkbox"
-                            name="concordo"
-                            value="1"
-                            required
-                            className="mt-1 h-4 w-4 shrink-0 accent-terracota"
-                        />
-                        <span>
-                            Li o Aviso de Privacidade e autorizo o processamento
-                            dos meus dados como parte da minha candidatura na
-                            Costa Desenvolvimento Humano. *
-                        </span>
-                    </label>
+                    <div className="space-y-3">
+                        <label className="flex items-start gap-3 text-sm text-off/80">
+                            <input
+                                type="checkbox"
+                                name="concordo"
+                                value="1"
+                                required
+                                className="mt-1 h-4 w-4 shrink-0 accent-terracota"
+                            />
+                            <span>
+                                Estou ciente e de acordo com o tratamento dos
+                                meus dados para participação neste processo
+                                seletivo. *
+                            </span>
+                        </label>
+
+                        <label className="flex items-start gap-3 text-sm text-off/80">
+                            <input
+                                type="checkbox"
+                                name="bancoTalentos"
+                                value="1"
+                                className="mt-1 h-4 w-4 shrink-0 accent-terracota"
+                            />
+                            <span>
+                                Autorizo a Costa DH a manter meus dados em seu
+                                banco de talentos por até 12 meses para que eu
+                                possa ser considerado(a) em futuras
+                                oportunidades compatíveis com meu perfil.
+                            </span>
+                        </label>
+                    </div>
                 </fieldset>
 
                 {erro && (
