@@ -89,11 +89,11 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                 className="mt-14 rounded-xl2 bg-azul p-8 text-off"
             >
                 <h2 className="font-display text-2xl">
-                    Candidatura recebida! 🎉
+                    Candidatura recebida! 🤷🏻‍♂️
                 </h2>
                 <p className="mt-2 text-sm text-off/70">
-                    Obrigado pela confiança. Se o perfil fizer match, a gente
-                    entra em contato.
+                    Obrigada pela confiança. Vamos avaliar seu perfil e tendo
+                    aderência com a posição, fazemos contato com você!!
                 </p>
             </div>
         );
