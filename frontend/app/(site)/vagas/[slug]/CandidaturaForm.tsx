@@ -232,7 +232,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
 
                     {/* LGPD */}
                     <details className="rounded-xl border border-off/15 bg-off/5 p-5 text-sm text-off/70">
-                        <summary className="cursor-pointer font-semibold text-off">
+                        <summary className="cursor-pointer font-semibold text-white/80 transition-colors hover:text-amarelo">
                             Aviso de Privacidade no processo de Recrutamento
                         </summary>
                         <div className="mt-3 space-y-3 leading-relaxed text-white/80">
@@ -251,7 +251,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 Dados Pessoais — LGPD (Lei nº 13.709/2018).
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-off">
+                            <h3 className="pt-2 font-semibold text-white/80">
                                 Como utilizamos seus dados?
                             </h3>
                             <p>
@@ -285,7 +285,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 </li>
                             </ul>
 
-                            <h3 className="pt-2 font-semibold text-off">
+                            <h3 className="pt-2 font-semibold text-white/80">
                                 Quem poderá acessar seus dados?
                             </h3>
                             <p>
@@ -295,12 +295,12 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 de sua candidatura, aos representantes da
                                 empresa contratante da oportunidade.
                             </p>
-                            <p className="font-medium text-off/90">
+                            <p className="font-medium text-white/80">
                                 A Costa DH não comercializa currículos ou dados
                                 pessoais de candidatos.
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-off">
+                            <h3 className="pt-2 font-semibold text-white/80">
                                 Por quanto tempo seus dados serão mantidos?
                             </h3>
                             <p>
@@ -312,7 +312,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 autorização para permanência na nossa base.
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-off">
+                            <h3 className="pt-2 font-semibold text-white/80">
                                 Seus direitos
                             </h3>
                             <p>
@@ -329,7 +329,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 oficiais da Costa DH.
                             </p>
 
-                            <h3 className="pt-2 font-semibold text-off">
+                            <h3 className="pt-2 font-semibold text-white/80">
                                 Um processo seletivo com respeito às pessoas
                             </h3>
                             <p>
@@ -350,7 +350,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                     </details>
 
                     <div className="space-y-3">
-                        <label className="flex items-start gap-3 text-sm text-off/80">
+                        <label className="flex items-start gap-3 text-sm text-white/80">
                             <input
                                 type="checkbox"
                                 name="concordo"
@@ -365,7 +365,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                             </span>
                         </label>
 
-                        <label className="flex items-start gap-3 text-sm text-off/80">
+                        <label className="flex items-start gap-3 text-sm text-white/80">
                             <input
                                 type="checkbox"
                                 name="bancoTalentos"
@@ -385,7 +385,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                 {erro && (
                     <p
                         role="alert"
-                        className="rounded-xl bg-terracota/20 px-4 py-3 text-sm text-off"
+                        className="rounded-xl bg-terracota/20 px-4 py-3 text-sm text-white/80"
                     >
                         {erro}
                     </p>
