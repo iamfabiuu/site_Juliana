@@ -235,7 +235,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                         <summary className="cursor-pointer font-semibold text-white transition-colors hover:text-amarelo">
                             Aviso de Privacidade no processo de Recrutamento
                         </summary>
-                        <div className="mt-3 space-y-3 leading-relaxed text-white">
+                        <div className="mt-3 space-y-3 leading-relaxed text-white [&_p]:text-white [&_h3]:text-base [&_h3]:leading-snug">
                             <p>
                                 Na Costa Desenvolvimento Humano, acreditamos que
                                 cada processo seletivo começa pelo respeito às
