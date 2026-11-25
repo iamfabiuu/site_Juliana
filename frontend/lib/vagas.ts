@@ -260,32 +260,87 @@ export async function getVaga(slug: string): Promise<Vaga | null> {
     }
 }
 
+const MENSAGENS: Record<number, string> = {
+    404: "Esta vaga não está mais disponível.",
+    413: "O arquivo é muito grande para o servidor. Envie um PDF menor (até 10MB).",
+    419: "Sua sessão expirou. Recarregue a página e tente novamente.",
+    422: "Confira os dados informados e tente novamente.",
+    429: "Muitas tentativas. Aguarde um minuto e tente novamente.",
+    500: "Tivemos uma instabilidade. Tente novamente em instantes.",
+    502: "Servidor indisponível no momento. Tente novamente em instantes.",
+    503: "Servidor em manutenção. Tente novamente em alguns minutos.",
+    504: "O servidor demorou para responder. Tente novamente.",
+};
+
+const TIMEOUT_MS = 90_000; // upload em 4G pode demorar
+
 /** vagaId = id numérico da vaga (vaga.id), não o slug */
 export async function enviarCandidatura(id: number | string, data: FormData) {
-    if (!API) throw new Error("NEXT_PUBLIC_API_URL não definida");
-    const numericId = typeof id === "number" ? id : Number(id);
-    if (!Number.isInteger(numericId) || numericId <= 0)
-        throw new Error(`ID de vaga inválido: ${id}`);
+    const falha = (
+        msg: string,
+        status?: number,
+        errors?: ErroApi["errors"],
+    ) => {
+        const err = new Error(msg) as ErroApi;
+        err.status = status;
+        err.errors = errors;
+        return err;
+    };
+
+    if (!API) throw falha("Serviço indisponível no momento. Tente mais tarde.");
+
+    const numericId = Number(id);
+    if (!Number.isInteger(numericId) || numericId <= 0) {
+        console.error("[enviarCandidatura] ID de vaga inválido:", id);
+        throw falha(
+            "Não foi possível identificar a vaga. Recarregue a página.",
+        );
+    }
+
+    // Normaliza o e-mail antes de enviar
+    const email = data.get("email");
+    if (typeof email === "string")
+        data.set("email", email.trim().toLowerCase());
 
     const url = `${API}/vagas/${numericId}/candidaturas`;
-    const res = await fetch(url, {
-        method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
-    });
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
-    const json = await res.json().catch(() => ({}));
+    let res: Response;
+    try {
+        res = await fetch(url, {
+            method: "POST",
+            body: data,
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+        });
+    } catch (e) {
+        console.error("[enviarCandidatura] rede:", e);
+        throw falha(
+            (e as Error)?.name === "AbortError"
+                ? "O envio demorou demais. Verifique sua conexão e tente novamente."
+                : "Sem conexão com o servidor. Verifique sua internet e tente novamente.",
+        );
+    } finally {
+        clearTimeout(timer);
+    }
+
+    const tipo = res.headers.get("content-type") ?? "";
+    const json: { message?: string; errors?: ErroApi["errors"] } =
+        tipo.includes("json") ? await res.json().catch(() => ({})) : {};
 
     if (!res.ok) {
-        if (IS_DEV) console.error("[enviarCandidatura]", res.status, url, json);
+        console.error("[enviarCandidatura]", res.status, url, json);
+
+        // 422 com errors: o form mostra o primeiro erro de campo
         const msg =
-            res.status === 429
-                ? "Muitas tentativas. Aguarde um minuto e tente novamente."
-                : (json?.message ?? `HTTP ${res.status}`);
-        const err = new Error(msg) as ErroApi;
-        err.status = res.status;
-        err.errors = json?.errors;
-        throw err;
+            MENSAGENS[res.status] ??
+            (res.status >= 500
+                ? MENSAGENS[500]
+                : "Não conseguimos enviar agora. Tente novamente.");
+
+        throw falha(msg, res.status, json.errors);
     }
+
     return json;
 }

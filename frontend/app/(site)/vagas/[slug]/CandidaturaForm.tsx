@@ -33,8 +33,11 @@ const ESTADOS = [
     "SP",
     "TO",
 ];
-const ACEITOS = ".pdf,.doc,.docx,.xls,.xlsx,.png,.jpeg,.jpg";
-const MAX_MB = 40;
+
+// Precisa ser igual à validação da API (mimes + max:10240)
+const EXTENSOES = ["pdf", "doc", "docx", "png", "jpg", "jpeg"];
+const ACEITOS = EXTENSOES.map((e) => `.${e}`).join(",");
+const MAX_MB = 10;
 
 const input =
     "mt-1.5 w-full rounded-xl border border-azul/15 bg-off px-4 py-3 text-azul outline-none transition-colors placeholder:text-azul/40 focus:border-terracota";
@@ -47,7 +50,17 @@ type Props = {
     vagaId: number | string;
 };
 
-export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
+function validarArquivo(f: File): string | null {
+    const ext = f.name.split(".").pop()?.toLowerCase() ?? "";
+    if (!EXTENSOES.includes(ext))
+        return "Formato não aceito. Envie PDF, Word (.doc/.docx) ou imagem (JPG/PNG).";
+    if (f.size > MAX_MB * 1024 * 1024)
+        return `O arquivo tem ${(f.size / 1024 / 1024).toFixed(1)}MB. O máximo é ${MAX_MB}MB.`;
+    if (f.size === 0) return "O arquivo está vazio. Selecione outro.";
+    return null;
+}
+
+export default function CandidaturaForm({ vagaId }: Props) {
     const [arquivo, setArquivo] = useState("");
     const [erro, setErro] = useState("");
     const [enviado, setEnviado] = useState(false);
@@ -59,9 +72,12 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
 
         // Monta ANTES de travar o fieldset (campo disabled não entra no FormData)
         const data = new FormData(e.currentTarget);
-        data.set("vaga", vaga);
-        data.set("slug", slug);
-        data.set("vagaId", String(vagaId));
+
+        const f = data.get("arquivo");
+        if (f instanceof File) {
+            const problema = validarArquivo(f);
+            if (problema) return setErro(problema);
+        }
 
         setErro("");
         setEnviando(true);
@@ -75,6 +91,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
             console.error("[candidatura]", err);
             setErro(
                 primeiro ??
+                    (err as Error)?.message ??
                     "Não conseguimos enviar agora. Tente novamente em instantes.",
             );
         } finally {
@@ -89,11 +106,11 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                 className="mt-14 rounded-xl2 bg-azul p-8 text-off"
             >
                 <h2 className="font-display text-2xl">
-                    Candidatura recebida! 🤷🏻‍♂️
+                    Candidatura recebida! 🎉
                 </h2>
                 <p className="mt-2 text-sm text-off/70">
-                    Obrigada pela confiança. Vamos avaliar seu perfil e tendo
-                    aderência com a posição, fazemos contato com você!!
+                    Obrigado pela confiança. Vamos avaliar seu perfil e, havendo
+                    aderência com a posição, entraremos em contato com você.
                 </p>
             </div>
         );
@@ -126,9 +143,10 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                         <label className="block text-sm font-medium text-off/80">
                             Contato (WhatsApp) *
                             <input
-                                name="fone"
+                                name="telefone"
                                 required
                                 type="tel"
+                                inputMode="tel"
                                 maxLength={30}
                                 autoComplete="tel"
                                 placeholder="(81) 90000-0000"
@@ -141,7 +159,10 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 name="email"
                                 required
                                 type="email"
+                                maxLength={255}
                                 autoComplete="email"
+                                autoCapitalize="none"
+                                spellCheck={false}
                                 placeholder="voce@email.com"
                                 className={input}
                             />
@@ -212,12 +233,11 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                                 onChange={(e) => {
                                     const f = e.target.files?.[0];
                                     if (!f) return setArquivo("");
-                                    if (f.size > MAX_MB * 1024 * 1024) {
+                                    const problema = validarArquivo(f);
+                                    if (problema) {
                                         e.target.value = "";
                                         setArquivo("");
-                                        return setErro(
-                                            `Arquivo acima de ${MAX_MB}MB.`,
-                                        );
+                                        return setErro(problema);
                                     }
                                     setErro("");
                                     setArquivo(f.name);
@@ -225,8 +245,8 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                             />
                         </label>
                         <p className="mt-2 text-xs text-off/50">
-                            Formatos: .pdf, .doc, .docx, .xls, .xlsx, .png,
-                            .jpeg · máx. {MAX_MB}MB
+                            Formatos: PDF, DOC, DOCX, JPG ou PNG · máx. {MAX_MB}
+                            MB
                         </p>
                     </div>
 
@@ -385,6 +405,7 @@ export default function CandidaturaForm({ vaga, slug, vagaId }: Props) {
                 {erro && (
                     <p
                         role="alert"
+                        aria-live="assertive"
                         className="rounded-xl bg-terracota/20 px-4 py-3 text-sm text-white/80"
                     >
                         {erro}
